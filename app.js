@@ -2,8 +2,11 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
+
+const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
+const axios = require('axios');
 
 // const campgrounds = require('./routes/camgprounds.js');
 // const reviews = require('./routes/reviews.js');
@@ -32,6 +35,7 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use("/scripts", express.static(__dirname + "/scripts"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
@@ -64,6 +68,58 @@ app.use(methodOverride('_method'));
 app.get('/', (req, res) => {
   res.render('home')
 });
+
+
+app.get('/fixture/:id', catchAsync(async(req,res) => {
+  let { from, to, season } = req.query;
+  const leagueId = req.params.id;
+  let fixtureDB;
+
+  
+  // 현재 날짜 정보 가져오기
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1 필요
+
+  // from, to 값이 없는 경우 현재 날짜 정보 사용
+  if (!from) {
+    from = `${currentYear}-${currentMonth}-01`;
+  }
+  if (!to) {
+    // 해당 월의 마지막 날짜 구하기
+    const lastDay = new Date(currentYear, currentMonth, 0).getDate();
+    to = `${currentYear}-${currentMonth}-${lastDay}`;
+  }
+  if (!season) {
+    season = String(currentYear);
+  }
+
+
+const options = {
+  method: 'GET',
+  url: 'https://api-football-v1.p.rapidapi.com/v3/fixtures',
+  params: {
+    league: leagueId,
+    season: season,
+    from: '2024-03-01',
+    to: '2024-03-31'
+  },
+  headers: {
+    'X-RapidAPI-Key': process.env.RapidApiKey,
+    'X-RapidAPI-Host': 'api-football-v1.pf.rapidapi.com'
+  }
+};
+
+try {
+	const response = await axios.request(options);
+	console.log(response.data.response);
+  fixtures = response.data.response;
+} catch (error) {
+	console.error(error);
+}  
+
+res.render('fixture', {leagueId , fixtures})
+}));
 
 // app.get('/', catchAsync(async (req, res) => {
 //     const campgrounds = await Campground.find({});
