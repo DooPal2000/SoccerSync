@@ -73,7 +73,7 @@ app.get('/', (req, res) => {
 app.get('/fixture/:id', catchAsync(async(req,res) => {
   let { from, to, season } = req.query;
   const leagueId = req.params.id;
-  let fixtureDB;
+  let fixtures;
 
   
   // 현재 날짜 정보 가져오기
@@ -101,12 +101,12 @@ const options = {
   params: {
     league: leagueId,
     season: season,
-    from: '2024-03-01',
-    to: '2024-03-31'
+    from: from,
+    to: to
   },
   headers: {
     'X-RapidAPI-Key': process.env.RapidApiKey,
-    'X-RapidAPI-Host': 'api-football-v1.pf.rapidapi.com'
+    'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
   }
 };
 

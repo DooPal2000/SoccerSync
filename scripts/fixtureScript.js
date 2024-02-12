@@ -1,27 +1,41 @@
-let currentMonth = new Date().getMonth() + 1;
-let currentYear = new Date().getFullYear();
 let yearMonth = document.getElementById('yearMonth');
-let fixtures = [];
-let leagueId = '292';
+let leagueId = '<%= leagueId %>';
 
-// 버튼 클릭 이벤트 리스너 등록
-document.getElementById('prevMonthBtn').addEventListener('click', () => {
-  currentMonth--;
-  if (currentMonth < 1) {
-    currentMonth = 12;
-    currentYear--;
-  }
-  loadFixtures();
+
+// 현재 년월 정보 가져오기
+const today = new Date();
+let currentYear = today.getFullYear();
+let currentMonth = today.getMonth() + 1; // 월은 0부터 시작하므로 +1 필요
+
+// 현재 년월을 표시
+document.getElementById('yearMonth').innerText = `${currentYear}년 ${currentMonth}월`;
+
+// 이전 달 버튼 클릭 시
+document.getElementById('prevMonthBtn').addEventListener('click', function () {
+    // 현재 년월을 변경하고 다시 표시
+    // (여기에서는 간단하게 현재 월을 감소시킴. 필요에 따라 더 복잡한 로직을 추가할 수 있음)
+    currentMonth--;
+    if (currentMonth === 0) {
+        currentYear--;
+        currentMonth = 12;
+    }
+    document.getElementById('yearMonth').innerText = `${currentYear}년 ${currentMonth}월`;
+
 });
 
-document.getElementById('nextMonthBtn').addEventListener('click', () => {
-  currentMonth++;
-  if (currentMonth > 12) {
-    currentMonth = 1;
-    currentYear++;
-  }
-  loadFixtures();
+// 다음 달 버튼 클릭 시
+document.getElementById('nextMonthBtn').addEventListener('click', function () {
+    // 현재 년월을 변경하고 다시 표시
+    // (여기에서는 간단하게 현재 월을 증가시킴. 필요에 따라 더 복잡한 로직을 추가할 수 있음)
+    currentMonth++;
+    if (currentMonth === 13) {
+        currentYear++;
+        currentMonth = 1;
+    }
+    document.getElementById('yearMonth').innerText = `${currentYear}년 ${currentMonth}월`;
+    
 });
+
 
 function loadFixtures() {
   const from = `${currentYear}-${String(currentMonth).padStart(2, '0')}-01`;
