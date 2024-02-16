@@ -70,12 +70,12 @@ app.get('/', (req, res) => {
 });
 
 
-app.get('/fixture/:id', catchAsync(async(req,res) => {
+app.get('/fixture/:id', catchAsync(async (req, res) => {
   let { from, to, season } = req.query;
   const leagueId = req.params.id;
   let fixtures;
 
-  
+
   // 현재 날짜 정보 가져오기
   const today = new Date();
   const currentYear = today.getFullYear();
@@ -95,42 +95,42 @@ app.get('/fixture/:id', catchAsync(async(req,res) => {
   }
 
 
-const options = {
-  method: 'GET',
-  url: 'https://api-football-v1.p.rapidapi.com/v3/fixtures',
-  params: {
-    league: leagueId,
-    season: season,
-    from: from,
-    to: to
-  },
-  headers: {
-    'X-RapidAPI-Key': process.env.RapidApiKey,
-    'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+  const options = {
+    method: 'GET',
+    url: 'https://api-football-v1.p.rapidapi.com/v3/fixtures',
+    params: {
+      league: leagueId,
+      season: season,
+      from: from,
+      to: to
+    },
+    headers: {
+      'X-RapidAPI-Key': process.env.RapidApiKey,
+      'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+    }
+  };
+
+  try {
+    const response = await axios.request(options);
+    console.log(response.data.response);
+    fixtures = response.data.response;
+  } catch (error) {
+    console.error(error);
   }
-};
 
-try {
-	const response = await axios.request(options);
-	console.log(response.data.response);
-  fixtures = response.data.response;
-} catch (error) {
-	console.error(error);
-}  
-
-res.render('fixture', {leagueId , fixtures})
+  res.render('fixture', { leagueId, fixtures })
 }));
 
 // app.get('/', catchAsync(async (req, res) => {
 //     const campgrounds = await Campground.find({});
 //     res.render('campgrounds/index', { campgrounds })
 //     }));
-    
+
 //     app.get('/new', (req, res) => {
 //     res.render('campgrounds/new');
 // })
-    
-    
+
+
 // app.post('/', validateCampground, catchAsync(async (req, res, next) => {
 // // if (!req.body.campground) throw new ExpressError('Invalid Campground Data', 400);
 // const campground = new Campground(req.body.campground);
@@ -166,17 +166,17 @@ res.render('fixture', {leagueId , fixtures})
 // await Campground.findByIdAndDelete(id);
 // res.redirect('/campgrounds');
 // }));
-    
+
 
 
 app.all('*', (req, res, next) => {
-    next(new ExpressError('Page Not Found', 404))
+  next(new ExpressError('Page Not Found', 404))
 })
 
 app.use((err, req, res, next) => {
-    const { statusCode = 500 } = err;
-    if (!err.message) err.message = 'Oh No, Something Went Wrong!'
-    res.status(statusCode).render('error', { err })
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = 'Oh No, Something Went Wrong!'
+  res.status(statusCode).render('error', { err })
 })
 
 
