@@ -3,10 +3,13 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 
+
+const { fixtureSchema } = require('./schemas.js');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const axios = require('axios');
+const Fixture = require('./models/fixture.js');
 
 // const campgrounds = require('./routes/camgprounds.js');
 // const reviews = require('./routes/reviews.js');
@@ -41,29 +44,15 @@ app.use(methodOverride('_method'));
 
 
 
-// const validateCampground = (req, res, next) => {
-//   const { error } = campgroundSchema.validate(req.body);
-//   if (error) {
-//       const msg = error.details.map(el => el.message).join(',')
-//       throw new ExpressError(msg, 400)
-//   } else {
-//       next();
-//   }
-// }
-
-// const validateReview = (req, res, next) => {
-//   const { error } = reviewSchema.validate(req.body);
-//   if (error) {
-//       const msg = error.details.map(el => el.message).join(',')
-//       throw new ExpressError(msg, 400)
-//   } else {
-//       next();
-//   }
-// }
-
-// app.use('/campgrounds',campgrounds);
-// app.use('/campgrounds/:id/reviews',reviews)
-
+const validateFixture = (req, res, next) => {
+  const { error } = fixtureSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map(el => el.message).join(',')
+    throw new ExpressError(msg, 400)
+  } else {
+    next();
+  }
+}
 
 app.get('/', (req, res) => {
   res.render('home')
@@ -80,19 +69,20 @@ app.get('/fixture/:id', catchAsync(async (req, res) => {
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1 필요
-
-  // from, to 값이 없는 경우 현재 날짜 정보 사용
-  if (!from) {
-    from = `${currentYear}-${currentMonth}-01`;
-  }
-  if (!to) {
-    // 해당 월의 마지막 날짜 구하기
-    const lastDay = new Date(currentYear, currentMonth, 0).getDate();
-    to = `${currentYear}-${currentMonth}-${lastDay}`;
-  }
   if (!season) {
     season = String(currentYear);
   }
+
+  // // from, to 값이 없는 경우 현재 날짜 정보 사용
+  // if (!from) {
+  //   from = `${currentYear}-${currentMonth}-01`;
+  // }
+  // if (!to) {
+  //   // 해당 월의 마지막 날짜 구하기
+  //   const lastDay = new Date(currentYear, currentMonth, 0).getDate();
+  //   to = `${currentYear}-${currentMonth}-${lastDay}`;
+  // }
+
 
 
   const options = {
@@ -101,8 +91,8 @@ app.get('/fixture/:id', catchAsync(async (req, res) => {
     params: {
       league: leagueId,
       season: season,
-      from: from,
-      to: to
+      from: '2024-03-01',
+      to: '2024-03-31'
     },
     headers: {
       'X-RapidAPI-Key': process.env.RapidApiKey,
@@ -116,6 +106,16 @@ app.get('/fixture/:id', catchAsync(async (req, res) => {
     fixtures = response.data.response;
   } catch (error) {
     console.error(error);
+  }
+
+  await Fixture.deleteMany({ 'league.id': leagueId })
+  for (let fixture of fixtures) {
+    fixture.fixture = {
+      ...fixture.fixture,
+      fixtureId: fixture.fixture.id,
+    };
+    const newFixture = new Fixture(fixture);
+    await newFixture.save();
   }
 
   res.render('fixture', { leagueId, fixtures })
