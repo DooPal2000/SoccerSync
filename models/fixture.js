@@ -2,25 +2,27 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const FixtureSchema = new Schema({
-    fixtureId: Number,
-    referee: String,
-    timezone: String,
-    date: Date,
-    timestamp: Number,
-    periods: {
-        first: Number,
-        second: Number
-    },
-    venue: {
-        id: Number,
-        name: String,
-        city: String,
-    },
-    status: {
-        long: String,
-        short: String,
-        elapsed: String
-    },
+    fixture: {
+        fixtureId: Number,
+        referee: String,
+        timezone: String,
+        date: Date,
+        timestamp: Number,
+        periods: {
+            first: Number,
+            second: Number
+        },
+        venue: {
+            id: Number,
+            name: String,
+            city: String,
+        },
+        status: {
+            long: String,
+            short: String,
+            elapsed: String
+        }
+    },    
     league: {
         id: Number,
         name: String,
