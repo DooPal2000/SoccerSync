@@ -1,11 +1,14 @@
 let yearMonth = document.getElementById('yearMonth');
-let leagueId = '<%= leagueId %>';
 
 
 // 현재 년월 정보 가져오기
 const today = new Date();
 let currentYear = today.getFullYear();
 let currentMonth = today.getMonth() + 1; // 월은 0부터 시작하므로 +1 필요
+
+
+const leagueId = document.getElementById('fixtureData').dataset.leagueId;
+const leagueName = document.getElementById('fixtureData').dataset.leagueName;
 
 // 현재 년월을 표시
 document.getElementById('yearMonth').innerText = `${currentYear}년 ${currentMonth}월`;
@@ -20,7 +23,7 @@ document.getElementById('prevMonthBtn').addEventListener('click', function () {
         currentMonth = 12;
     }
     document.getElementById('yearMonth').innerText = `${currentYear}년 ${currentMonth}월`;
-
+    loadFixtures(currentYear,currentMonth);    
 });
 
 // 다음 달 버튼 클릭 시
@@ -33,72 +36,84 @@ document.getElementById('nextMonthBtn').addEventListener('click', function () {
         currentMonth = 1;
     }
     document.getElementById('yearMonth').innerText = `${currentYear}년 ${currentMonth}월`;
-    
+    loadFixtures(currentYear,currentMonth);    
 });
 
 
-function loadFixtures() {
-  const from = `${currentYear}-${String(currentMonth).padStart(2, '0')}-01`;
-  const to = `${currentYear}-${String(currentMonth).padStart(2, '0')}-${new Date(currentYear, currentMonth, 0).getDate()}`;
+function loadFixtures(currentYear,currentMonth) {
 
-  axios.get(`/fixture/${leagueId}?from=${from}&to=${to}&season=${currentYear}`)
+    axios.get(`/fixtures/${leagueId}?year=${currentYear}&month=${currentMonth}`)
     .then(response => {
-      fixtures = response.data.fixtureDB;
-      renderFixtures();
+      const fixtures = response.data;
+
+      const tableBody = document.querySelector('tbody');
+      tableBody.innerHTML = ''; // 기존 행 삭제
+
+      fixtures.forEach(fixture => {
+        const row = document.createElement('tr');
+
+        // 경기일자 셀
+        const dateCell = document.createElement('td');
+        dateCell.textContent = new Date(fixture.fixture.date).toLocaleString();
+        row.appendChild(dateCell);
+
+        // Home Team logo 셀
+        const homeLogoCell = document.createElement('td');
+        const homeLogoImg = document.createElement('img');
+        homeLogoImg.src = fixture.teams.home.logo;
+        homeLogoImg.alt = `${fixture.teams.home.name} logo`;
+        homeLogoImg.width = 50;
+        homeLogoImg.height = 50;
+        homeLogoCell.appendChild(homeLogoImg);
+        row.appendChild(homeLogoCell);
+
+        // Home Team name 셀
+        const homeNameCell = document.createElement('td');
+        homeNameCell.textContent = fixture.teams.home.name;
+        row.appendChild(homeNameCell);
+
+        // Score 셀
+        const scoreCell = document.createElement('td');
+        if (fixture.goals.home === null || fixture.goals.away === null) {
+          scoreCell.textContent = '경기 전';
+        } else {
+          scoreCell.textContent = `${fixture.goals.home} - ${fixture.goals.away}`;
+        }
+        row.appendChild(scoreCell);
+
+        // Away Team name 셀
+        const awayNameCell = document.createElement('td');
+        awayNameCell.textContent = fixture.teams.away.name;
+        row.appendChild(awayNameCell);
+
+        // Away Team logo 셀
+        const awayLogoCell = document.createElement('td');
+        const awayLogoImg = document.createElement('img');
+        awayLogoImg.src = fixture.teams.away.logo;
+        awayLogoImg.alt = `${fixture.teams.away.name} logo`;
+        awayLogoImg.width = 50;
+        awayLogoImg.height = 50;
+        awayLogoCell.appendChild(awayLogoImg);
+        row.appendChild(awayLogoCell);
+
+        // 일정코드 셀
+        const idCell = document.createElement('td');
+        idCell.textContent = fixture.fixture.id;
+        row.appendChild(idCell);
+
+        // 승부예측 바로가기 셀
+        const predictionCell = document.createElement('td');
+        const predictionButton = document.createElement('button');
+        predictionButton.textContent = '승부예측';
+        predictionButton.classList.add('btn', 'btn-outline-dark');
+        predictionButton.onclick = function() {
+          window.location.href = `prediction.jsp?fixtureCode=${fixture.fixture.id}`;
+        };
+        predictionCell.appendChild(predictionButton);
+        row.appendChild(predictionCell);
+
+        tableBody.appendChild(row);
+      });
     })
-    .catch(console.error);
-}
+    .catch(console.error);}
 
-// // 페이지 로드 시 경기 일정 로드
-// window.onload = loadFixtures();
-
-// let currentMonth = new Date().getMonth() + 1;
-// let currentYear = new Date().getFullYear();
-// let yearMonth = document.getElementById('yearMonth');
-// let fixtures = [];
-
-// // window.onload = loadFixtures;
-
-
-
-// // 버튼 클릭 이벤트 리스너 등록
-// document.getElementById('prevMonthBtn').addEventListener('click', () => {
-// 	currentMonth--;
-// 	if (currentMonth < 1) {
-// 		currentMonth = 12;
-// 		currentYear--;
-// 	}
-// 	loadFixtures();
-// });
-
-// document.getElementById('nextMonthBtn').addEventListener('click', () => {
-// 	currentMonth++;
-// 	if (currentMonth > 12) {
-// 		currentMonth = 1;
-// 		currentYear++;
-// 	}
-// 	loadFixtures();
-// });
-
-// document.addEventListener("click", (event) => {
-//   if (event.target.classList.contains("btn-outline-dark")) {
-//     const fixtureCode = event.target.dataset.fixtureCode;
-    
-//     if (!fixtureCode) {
-//       alert("일정코드가 입력되지 않았습니다.");
-//     } else {
-//       // 이 경우 prediction.jsp로 이동하고 fixtureCode를 넘겨줍니다.
-//       window.location.href = `prediction.jsp?fixtureCode=${fixtureCode}`;
-//     }
-//   }
-// });
-
-// function loadFixtures() {
-//     axios.get(`/api/fixture/${leagueId}`) // 서버에 재요청 보내기
-//       .then(response => {
-//         fixtureDB = response.data; // 데이터 업데이트
-//         renderFixtures(fixtureDB); // 화면 업데이트
-//       })
-//       .catch(console.error);
-//   }
-  

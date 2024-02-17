@@ -59,67 +59,92 @@ app.get('/', (req, res) => {
 });
 
 
-app.get('/fixture/:id', catchAsync(async (req, res) => {
-  let { from, to, season } = req.query;
+
+app.get('/fixtures/:id', catchAsync(async (req, res) => {
   const leagueId = req.params.id;
+  let leagueName;
   let fixtures;
 
+  const { year, month } = req.query;
 
-  // 현재 날짜 정보 가져오기
-  const today = new Date();
-  const currentYear = today.getFullYear();
-  const currentMonth = String(today.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1 필요
-  if (!season) {
-    season = String(currentYear);
-  }
+  if (!year || !month) {
+    // 현재 날짜 정보 가져오기
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const currentMonth = today.getMonth();
+    let season = String(currentYear);
 
-  // // from, to 값이 없는 경우 현재 날짜 정보 사용
-  // if (!from) {
-  //   from = `${currentYear}-${currentMonth}-01`;
-  // }
-  // if (!to) {
-  //   // 해당 월의 마지막 날짜 구하기
-  //   const lastDay = new Date(currentYear, currentMonth, 0).getDate();
-  //   to = `${currentYear}-${currentMonth}-${lastDay}`;
-  // }
-
-
-
-  const options = {
-    method: 'GET',
-    url: 'https://api-football-v1.p.rapidapi.com/v3/fixtures',
-    params: {
-      league: leagueId,
-      season: season,
-      from: '2024-03-01',
-      to: '2024-03-31'
-    },
-    headers: {
-      'X-RapidAPI-Key': process.env.RapidApiKey,
-      'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
-    }
-  };
-
-  try {
-    const response = await axios.request(options);
-    console.log(response.data.response);
-    fixtures = response.data.response;
-  } catch (error) {
-    console.error(error);
-  }
-
-  await Fixture.deleteMany({ 'league.id': leagueId })
-  for (let fixture of fixtures) {
-    fixture.fixture = {
-      ...fixture.fixture,
-      fixtureId: fixture.fixture.id,
+    const options = {
+      method: 'GET',
+      url: 'https://api-football-v1.p.rapidapi.com/v3/fixtures',
+      params: {
+        league: leagueId,
+        season: season,
+      },
+      headers: {
+        'X-RapidAPI-Key': process.env.RapidApiKey,
+        'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
+      }
     };
-    const newFixture = new Fixture(fixture);
-    await newFixture.save();
+
+    try {
+      const response = await axios.request(options);
+      console.log(response.data.response);
+      fixtures = response.data.response;
+    } catch (error) {
+      console.error(error);
+    }
+
+    await Fixture.deleteMany({ 'league.id': leagueId })
+    for (let fixture of fixtures) {
+      fixture.fixture = {
+        ...fixture.fixture,
+        fixtureId: fixture.fixture.id,
+      };
+      const newFixture = new Fixture(fixture);
+      await newFixture.save();
+      leagueName = newFixture.league.name;
+    }
+
+    fixtures = fixtures.filter(fixture => {
+      const fixtureMonth = new Date(fixture.fixture.timestamp * 1000).getMonth();
+      return fixtureMonth === currentMonth;
+    })
+
+    res.render('fixture', { leagueId, leagueName, fixtures })
+  } else {
+    // year와 month 파라미터가 있으면 해당 월의 데이터만 반환
+    const startDate = new Date(year, month - 1); // 월은 0부터 시작하므로 month - 1
+    const endDate = new Date(year, month); // 다음 달의 첫 날 (이 날짜는 포함되지 않음)
+    // 날짜 범위를 timestamp로 변환
+    const startTimestamp = startDate.getTime() / 1000;
+    const endTimestamp = endDate.getTime() / 1000;
+
+    const fixtures = await Fixture.find({
+      'league.id': leagueId,
+      'fixture.timestamp': {
+        $gte: startTimestamp,
+        $lte: endTimestamp
+      }
+    });
+    res.json(fixtures);
   }
 
-  res.render('fixture', { leagueId, fixtures })
 }));
+
+
+
+
+app.get('/fixture/:id/month'), catchAsync(async (req, res) => {
+
+
+
+
+
+
+
+})
+
 
 // app.get('/', catchAsync(async (req, res) => {
 //     const campgrounds = await Campground.find({});
