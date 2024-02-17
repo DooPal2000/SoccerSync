@@ -76,13 +76,8 @@ app.get('/fixtures/:id', catchAsync(async (req, res) => {
 
   if (!year || !month) {
 
-    for (const seasonToDelete of seasonsToSave) {
-      await Fixture.deleteMany({
-        'league.id': leagueId,
-        'fixture.season': seasonToDelete
-      });
-    }
-  
+    await Fixture.deleteMany({ 'league.id': leagueId, });
+
     for (const season of seasonsToSave) {
       const options = {
         method: 'GET',
@@ -96,13 +91,13 @@ app.get('/fixtures/:id', catchAsync(async (req, res) => {
           'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
         }
       };
-    
+
       try {
         const response = await axios.request(options);
         console.log(response.data.response);
         fixtures = response.data.response;
-    
-    
+
+
         for (let fixture of fixtures) {
           fixture.fixture = {
             ...fixture.fixture,
@@ -112,18 +107,22 @@ app.get('/fixtures/:id', catchAsync(async (req, res) => {
           await newFixture.save();
           leagueName = newFixture.league.name;
         }
-    
+
       } catch (error) {
         console.error(`Error fetching data for season ${season}:`, error);
-        // 오류 발생 시에도 계속 진행하거나, 중단하도록 로직을 추가할 수 있습니다.
-      }  
+      }
     }
-    fixtures = fixtures.filter(fixture => {
-      const fixtureMonth = new Date(fixture.fixture.timestamp * 1000).getMonth();
-      return fixtureMonth === currentMonth;
-    })
+    fixtures = fixtures
+      .filter(fixture => {
+        const fixtureMonth = new Date(fixture.fixture.timestamp * 1000).getMonth();
+        return fixtureMonth === currentMonth;
+      });
 
-    res.render('fixture', { leagueId, leagueName, fixtures })  
+      if (fixtures.length > 0) {
+        fixtures.sort((a, b) => a.fixture.timestamp - b.fixture.timestamp);
+      }      
+
+    res.render('fixture', { leagueId, leagueName, fixtures })
 
     // const options = {
     //   method: 'GET',
@@ -177,7 +176,12 @@ app.get('/fixtures/:id', catchAsync(async (req, res) => {
         $gte: startTimestamp,
         $lte: endTimestamp
       }
-    });
+    })
+
+    if (fixtures.length > 0) {
+      fixtures.sort((a, b) => a.fixture.timestamp - b.fixture.timestamp);
+    }      
+
     res.json(fixtures);
   }
 
