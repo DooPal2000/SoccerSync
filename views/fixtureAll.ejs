@@ -1,0 +1,82 @@
+<% layout('layouts/boilerplate')%>
+
+
+  <div class="container">
+    <h1>
+      <%= leagueName %> 경기 일정입니다.
+    </h1>
+  </div>
+  <div class="container">
+    <div class="row justify-content-center gx-5">
+      <div class="col-auto">
+        <button class="btn btn-outline-info" id="prevMonthBtn">이전 달</button>
+      </div>
+      <div class="col-auto">
+        <div id="yearMonth"></div>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-outline-info" id="nextMonthBtn">다음 달 </button>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>경기일자</th>
+        <th></th>
+        <th>Home Team</th>
+        <th>Score</th>
+        <th>Away Team</th>
+        <th></th>
+        <th>일정코드</th>
+        <th>승부예측 바로가기</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% fixtures.forEach(fixture=> { %>
+        <tr>
+          <td>
+            <%= new Date(fixture.fixture.date).toLocaleString() %>
+          </td>
+          <td><img src="<%= fixture.teams.home.logo %>" alt="<%= fixture.teams.home.name %> logo" width="50"
+              height="50"></td>
+
+          <td>
+            <%= fixture.teams.home.name %>
+          </td>
+          <td>
+            <% if (fixture.goals.home===null || fixture.goals.away===null) { %>
+              경기 전
+              <% } else { %>
+                <%= fixture.score.fulltime.home + ' - ' + fixture.score.fulltime.away %>
+                  <% } %>
+          </td>
+          <td>
+            <%= fixture.teams.away.name %>
+          </td>
+          <td><img src="<%= fixture.teams.away.logo %>" alt="<%= fixture.teams.away.name %> logo" width="50"
+              height="50"></td>
+          <td>
+            <%= fixture.fixture.id %>
+          </td>
+          <td>
+            <button class="btn btn-outline-dark"
+              onclick="window.location.href = 'prediction.jsp?fixtureCode=<%= fixture.fixture.id %>'">
+              승부예측
+            </button>
+          </td>
+        </tr>
+        <% }); %>
+    </tbody>
+  </table>
+
+
+
+  <div class="container">
+    <div class="table table-striped" id="fixture-container"></div>
+  </div>
+  <div id="fixtureData" data-league-id="<%= leagueId %>" data-league-name="<%= leagueName %>">
+
+  <script src="../scripts/fixtureScript.js"> </script>
+  </div>
