@@ -179,18 +179,22 @@ app.get('/standings/:id', catchAsync(async (req, res) => {
 
     try {
       const response = await axios.request(options);
-      if (response.data.response) {
+      if (Array.isArray(response.data.response) && response.data.response.length > 0) {
         resultFlag = true;
-        standings = response.data.response
+        standings = response.data.response[0];
       }
-      else { season -= 1 }
+      else {
+        console.log(`API response for season ${season} is undefined or empty.`);
+        season -= 1;
+      }
     } catch (error) {
       console.error(error);
     }
   }
 
   console.log(standings);
-  res.render('standing', standings)
+  //res.send(standings)
+  res.render('standing', { standings });
 }));
 
 
@@ -240,7 +244,6 @@ app.get('/standings/:id', catchAsync(async (req, res) => {
 // await Campground.findByIdAndDelete(id);
 // res.redirect('/campgrounds');
 // }));
-
 
 
 app.all('*', (req, res, next) => {
