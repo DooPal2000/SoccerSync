@@ -6,8 +6,12 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique:true
-    }
+        unique: true
+    },
+    favorites: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Fixture'
+    }]
 });
 userSchema.plugin(passportLocalMongoose);
 module.exports = mongoose.model("User", userSchema);
