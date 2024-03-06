@@ -11,8 +11,10 @@ const methodOverride = require('method-override');
 const axios = require('axios');
 const Fixture = require('./models/fixture.js');
 
-// const campgrounds = require('./routes/camgprounds.js');
-// const reviews = require('./routes/reviews.js');
+const fixtureRoutes = require('./routes/fixture.js');
+const userRoutes = require('./routes/user.js');
+const postRoutes = require('./routes/post.js');
+const reviewRoutes = require('./routes/review.js');
 
 
 require('dotenv').config({ path: './.env' });
@@ -44,6 +46,29 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+
+app.use(session(sessionConfig));
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use('/fixtures', fixtureRoutes);
+app.use('/users', userRoutes);
+app.use('/posts', postRoutes);
+app.use('/posts/:id/reviews', reviewRoutes);
+
+app.use((req, res, next) => {
+  console.log(req.session);
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+})
 
 
 const validateFixture = (req, res, next) => {
