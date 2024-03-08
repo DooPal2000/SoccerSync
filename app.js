@@ -2,35 +2,40 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
+const session = require('express-session');
+const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user.js');
 
-
-const { fixtureSchema } = require('./schemas.js');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const axios = require('axios');
-const Fixture = require('./models/fixture.js');
 
-const fixtureRoutes = require('./routes/fixture.js');
-const userRoutes = require('./routes/user.js');
-const postRoutes = require('./routes/post.js');
-const reviewRoutes = require('./routes/review.js');
+const Fixture = require('./models/fixture.js');
+const { fixtureSchema } = require('./schemas.js');
+
+// const fixtureRoutes = require('./routes/fixture.js');
+// const userRoutes = require('./routes/user.js');
+// const postRoutes = require('./routes/post.js');
+// const reviewRoutes = require('./routes/review.js');
 
 
 require('dotenv').config({ path: './.env' });
 
 
 mongoose
-  .connect(
-    process.env.MONGODB_URI
-  )
-  .then(() => {
-    console.log("Connected to database!");
-  })
-  .catch((e) => {
-    console.log("Connection failed!");
-    console.error("Connection failed:", e);
-  });
+.connect(
+  process.env.MONGODB_URI
+)
+.then(() => {
+  console.log("Connected to database!");
+})
+.catch((e) => {
+  console.log("Connection failed!");
+  console.error("Connection failed:", e);
+});
 
 
 
@@ -47,6 +52,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 
+const sessionConfig = {
+  secret: 'thisissecretkey', // 실제 프로덕트에서는 비밀 키
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true, //보안 코드 (디폴트 true)
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // 만료 기한은 설정해야함
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+}
+
+
 app.use(session(sessionConfig));
 app.use(flash());
 
@@ -57,10 +74,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use('/fixtures', fixtureRoutes);
-app.use('/users', userRoutes);
-app.use('/posts', postRoutes);
-app.use('/posts/:id/reviews', reviewRoutes);
+// app.use('/fixtures', fixtureRoutes);
+// app.use('/users', userRoutes);
+// app.use('/posts', postRoutes);
+// app.use('/posts/:id/reviews', reviewRoutes);
 
 app.use((req, res, next) => {
   console.log(req.session);
@@ -218,6 +235,8 @@ app.get('/standings/:id', catchAsync(async (req, res) => {
   }
 
   console.log(standings);
+  console.log(standings.league.standings[0]);
+
   //res.send(standings)
   res.render('standing', { standings });
 }));

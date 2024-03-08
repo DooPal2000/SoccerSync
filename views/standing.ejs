@@ -3,29 +3,83 @@
 
   <div class="container">
     <h1>
-        Standings
+      🏆️ Standings
     </h1>
     <div class="container">
       <div class="row justify-content-center gx-5">
-        <h1><%= standings.league.name %></h1>
-        <h2><%= standings.league.country %></h2>
-        <img src="<%= standings.league.flag%>" width="50px" height="50px" alt="">
+        <h1>리그명: <%= standings.league.name %> <img src="<%= standings.league.logo%>" width="50px" height="50px" alt="">
+        </h1>
+        <h2>소속 국가: <%= standings.league.country %> <img src="<%= standings.league.flag%>" width="50px" height="50px"
+              alt="">
+
+        </h2>
         <div class="col-auto">
           <button class="btn btn-outline-info" id="prevMonthBtn">이전 시즌</button>
         </div>
         <div class="col-auto">
-          <div id="year"><%= standings.league.season %>시즌 순위표</div>
+          <div id="year">
+            <%= standings.league.season %>시즌 순위표
+          </div>
         </div>
         <div class="col-auto">
           <button class="btn btn-outline-info" id="nextMonthBtn">다음 시즌 </button>
         </div>
       </div>
     </div>
-    <div class="standingContainer">
 
+
+    <div class="container">
+      <div id="standings-table">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Team</th>
+              <th>Logo</th>
+              <th>Played</th>
+              <th>Win</th>
+              <th>Draw</th>
+              <th>Lose</th>
+              <th>Points(승점)</th>
+              <th>GoalsDiff(골 득실차)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% standings.league.standings[0].forEach(team=> { %>
+              <tr>
+                <td>
+                  <%= team.rank %>
+                </td>
+                <td>
+                  <%= team.team.name %>
+                </td>
+                <td><img src="<%= team.team.logo %>" alt="<%= team.team.name %>"
+                    style="max-width: 50px; max-height: 50px;"></td>
+                <td>
+                  <%= team.all.played %>
+                </td>
+                <td>
+                  <%= team.all.win %>
+                </td>
+                <td>
+                  <%= team.all.draw %>
+                </td>
+                <td>
+                  <%= team.all.lose %>
+                </td>
+                <td>
+                  <%= team.points %>
+                </td>
+                <td>
+                  <%= team.goalsDiff %>
+                </td>
+              </tr>
+              <% }); %>
+          </tbody>
+        </table>
+      </div>
     </div>
-
   </div>
 
-  <script src="/js/standingScripts.js"> </script>
+  <!-- <script src="/js/standingScripts.js"> </script> -->
   </div>
