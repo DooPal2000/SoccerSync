@@ -16,26 +16,26 @@ const axios = require('axios');
 const Fixture = require('./models/fixture.js');
 const { fixtureSchema } = require('./schemas.js');
 
-// const fixtureRoutes = require('./routes/fixture.js');
-// const userRoutes = require('./routes/user.js');
-// const postRoutes = require('./routes/post.js');
-// const reviewRoutes = require('./routes/review.js');
+const fixtureRoutes = require('./routes/fixture.js');
+const userRoutes = require('./routes/user.js');
+const postRoutes = require('./routes/post.js');
+const reviewRoutes = require('./routes/review.js');
 
 
 require('dotenv').config({ path: './.env' });
 
 
 mongoose
-.connect(
-  process.env.MONGODB_URI
-)
-.then(() => {
-  console.log("Connected to database!");
-})
-.catch((e) => {
-  console.log("Connection failed!");
-  console.error("Connection failed:", e);
-});
+  .connect(
+    process.env.MONGODB_URI
+  )
+  .then(() => {
+    console.log("Connected to database!");
+  })
+  .catch((e) => {
+    console.log("Connection failed!");
+    console.error("Connection failed:", e);
+  });
 
 
 
@@ -74,10 +74,6 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// app.use('/fixtures', fixtureRoutes);
-// app.use('/users', userRoutes);
-// app.use('/posts', postRoutes);
-// app.use('/posts/:id/reviews', reviewRoutes);
 
 app.use((req, res, next) => {
   console.log(req.session);
@@ -97,11 +93,19 @@ const validateFixture = (req, res, next) => {
     next();
   }
 }
+app.use('/', userRoutes);
+// app.use('/fixtures', fixtureRoutes);
+// app.use('/standings', standingRoutes);
+// app.use('/posts', postRoutes);
+// app.use('/posts/:id/reviews', reviewRoutes);
+
 
 app.get('/', (req, res) => {
-  res.render('home')
+  res.render('home');
 });
-
+app.get('/home', (req, res) => {
+  res.render('home');
+});
 
 
 app.get('/fixtures/:id', catchAsync(async (req, res) => {
