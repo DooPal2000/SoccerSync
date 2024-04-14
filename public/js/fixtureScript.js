@@ -98,7 +98,7 @@ function loadFixtures(currentYear,currentMonth) {
 
         // 일정코드 셀
         const idCell = document.createElement('td');
-        idCell.textContent = fixture.fixture.id;
+        idCell.textContent = fixture.fixture.fixtureId;
         row.appendChild(idCell);
 
         // 승부예측 바로가기 셀
@@ -107,7 +107,7 @@ function loadFixtures(currentYear,currentMonth) {
         predictionButton.textContent = '승부예측';
         predictionButton.classList.add('btn', 'btn-outline-dark');
         predictionButton.onclick = function() {
-          window.location.href = `prediction.jsp?fixtureCode=${fixture.fixture.id}`;
+          window.location.href = `prediction.jsp?fixtureCode=${fixture.fixture.fixtureId}`;
         };
         predictionCell.appendChild(predictionButton);
         row.appendChild(predictionCell);
