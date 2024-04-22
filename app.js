@@ -17,6 +17,7 @@ const Fixture = require('./models/fixture.js');
 const { fixtureSchema } = require('./schemas.js');
 
 const fixtureRoutes = require('./routes/fixture.js');
+const standingRoutes = require('./routes/standing.js');
 const userRoutes = require('./routes/user.js');
 const postRoutes = require('./routes/post.js');
 const reviewRoutes = require('./routes/review.js');
@@ -95,7 +96,7 @@ const validateFixture = (req, res, next) => {
 }
 app.use('/', userRoutes);
 app.use('/fixtures', fixtureRoutes);
-// app.use('/standings', standingRoutes);
+app.use('/standings', standingRoutes);
 // app.use('/posts', postRoutes);
 // app.use('/posts/:id/reviews', reviewRoutes);
 
