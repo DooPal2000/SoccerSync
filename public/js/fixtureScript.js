@@ -15,34 +15,34 @@ document.getElementById('yearMonth').innerText = `${currentYear}년 ${currentMon
 
 // 이전 달 버튼 클릭 시
 document.getElementById('prevMonthBtn').addEventListener('click', function () {
-    // 현재 년월을 변경하고 다시 표시
-    // (여기에서는 간단하게 현재 월을 감소시킴. 필요에 따라 더 복잡한 로직을 추가할 수 있음)
-    currentMonth--;
-    if (currentMonth === 0) {
-        currentYear--;
-        currentMonth = 12;
-    }
-    document.getElementById('yearMonth').innerText = `${currentYear}년 ${currentMonth}월`;
-    loadFixtures(currentYear,currentMonth);    
+  // 현재 년월을 변경하고 다시 표시
+  // (여기에서는 간단하게 현재 월을 감소시킴. 필요에 따라 더 복잡한 로직을 추가할 수 있음)
+  currentMonth--;
+  if (currentMonth === 0) {
+    currentYear--;
+    currentMonth = 12;
+  }
+  document.getElementById('yearMonth').innerText = `${currentYear}년 ${currentMonth}월`;
+  loadFixtures(currentYear, currentMonth);
 });
 
 // 다음 달 버튼 클릭 시
 document.getElementById('nextMonthBtn').addEventListener('click', function () {
-    // 현재 년월을 변경하고 다시 표시
-    // (여기에서는 간단하게 현재 월을 증가시킴. 필요에 따라 더 복잡한 로직을 추가할 수 있음)
-    currentMonth++;
-    if (currentMonth === 13) {
-        currentYear++;
-        currentMonth = 1;
-    }
-    document.getElementById('yearMonth').innerText = `${currentYear}년 ${currentMonth}월`;
-    loadFixtures(currentYear,currentMonth);    
+  // 현재 년월을 변경하고 다시 표시
+  // (여기에서는 간단하게 현재 월을 증가시킴. 필요에 따라 더 복잡한 로직을 추가할 수 있음)
+  currentMonth++;
+  if (currentMonth === 13) {
+    currentYear++;
+    currentMonth = 1;
+  }
+  document.getElementById('yearMonth').innerText = `${currentYear}년 ${currentMonth}월`;
+  loadFixtures(currentYear, currentMonth);
 });
 
 
-function loadFixtures(currentYear,currentMonth) {
+function loadFixtures(currentYear, currentMonth) {
 
-    axios.get(`/fixtures/${leagueId}?year=${currentYear}&month=${currentMonth}`)
+  axios.get(`/fixtures/${leagueId}?year=${currentYear}&month=${currentMonth}`)
     .then(response => {
       const fixtures = response.data;
 
@@ -106,7 +106,7 @@ function loadFixtures(currentYear,currentMonth) {
         const predictionButton = document.createElement('button');
         predictionButton.textContent = '승부예측';
         predictionButton.classList.add('btn', 'btn-outline-dark');
-        predictionButton.onclick = function() {
+        predictionButton.onclick = function () {
           window.location.href = `prediction.jsp?fixtureCode=${fixture.fixture.fixtureId}`;
         };
         predictionCell.appendChild(predictionButton);
@@ -115,5 +115,6 @@ function loadFixtures(currentYear,currentMonth) {
         tableBody.appendChild(row);
       });
     })
-    .catch(console.error);}
+    .catch(console.error);
+}
 

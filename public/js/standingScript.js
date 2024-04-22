@@ -1,3 +1,5 @@
+  
+  
   document.addEventListener('DOMContentLoaded', function () {
     // 서버에서 받은 JSON 데이터
 
@@ -41,3 +43,13 @@
     // standingsData를 사용하여 테이블 생성
     displayStandings(standings);
   });
+
+  // 이전 시즌 버튼 클릭 시
+document.getElementById('prevYearBtn').addEventListener('click', function () {
+  changeStandingSeanson(-1);
+});
+
+// 다음 시즌 버튼 클릭 시
+document.getElementById('nextYearBtn').addEventListener('click', function () {
+  changeStandingSeanson(1);
+});

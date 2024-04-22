@@ -14,7 +14,7 @@
 
         </h2>
         <div class="col-auto">
-          <button class="btn btn-outline-info" id="prevMonthBtn">이전 시즌</button>
+          <button class="btn btn-outline-info" id="prevYearBtn">이전 시즌</button>
         </div>
         <div class="col-auto">
           <div id="year">
@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="col-auto">
-          <button class="btn btn-outline-info" id="nextMonthBtn">다음 시즌 </button>
+          <button class="btn btn-outline-info" id="nextYearBtn">다음 시즌 </button>
         </div>
       </div>
     </div>
@@ -80,6 +80,7 @@
       </div>
     </div>
   </div>
-
-  <!-- <script src="/js/standingScripts.js"> </script> -->
+  <script> const CurrSeason = <%- JSON.stringify(standings.league.season) %> </script>
+  
+  <script src="/js/standingScript.js"> </script>
   </div>
