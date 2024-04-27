@@ -54,7 +54,7 @@
                   <%= team.team.name %>
                 </td>
                 <td><img src="<%= team.team.logo %>" alt="<%= team.team.name %>"
-                    style="max-width: 50px; max-height: 50px;"></td>
+                    style="max-width: 40px; max-height: 40px;"></td>
                 <td>
                   <%= team.all.played %>
                 </td>
@@ -80,7 +80,8 @@
       </div>
     </div>
   </div>
-  <script> const CurrSeason = <%- JSON.stringify(standings.league.season) %> </script>
+  <script> const season = <%- JSON.stringify(standings.league.season) %>;
+  const leagueId = <%- JSON.stringify(standings.league.id) %>  </script>
   
   <script src="/js/standingScript.js"> </script>
   </div>
