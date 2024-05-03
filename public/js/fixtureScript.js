@@ -40,81 +40,158 @@ document.getElementById('nextMonthBtn').addEventListener('click', function () {
 });
 
 
-function loadFixtures(currentYear, currentMonth) {
+// function loadFixtures(currentYear, currentMonth) {
 
-  axios.get(`/fixtures/${leagueId}?year=${currentYear}&month=${currentMonth}`)
-    .then(response => {
-      const fixtures = response.data;
+//   axios.get(`/fixtures/${leagueId}?year=${currentYear}&month=${currentMonth}`)
+//     .then(response => {
+//       const fixtures = response.data;
 
-      const tableBody = document.querySelector('tbody');
-      tableBody.innerHTML = ''; // 기존 행 삭제
+//       const tableBody = document.querySelector('tbody');
+//       tableBody.innerHTML = ''; // 기존 행 삭제
 
-      fixtures.forEach(fixture => {
-        const row = document.createElement('tr');
+//       fixtures.forEach(fixture => {
+//         const row = document.createElement('tr');
 
-        // 경기일자 셀
-        const dateCell = document.createElement('td');
-        dateCell.textContent = new Date(fixture.fixture.date).toLocaleString();
-        row.appendChild(dateCell);
+//         // 경기일자 셀
+//         const dateCell = document.createElement('td');
+//         dateCell.textContent = new Date(fixture.fixture.date).toLocaleString();
+//         row.appendChild(dateCell);
 
-        // Home Team logo 셀
-        const homeLogoCell = document.createElement('td');
-        const homeLogoImg = document.createElement('img');
-        homeLogoImg.src = fixture.teams.home.logo;
-        homeLogoImg.alt = `${fixture.teams.home.name} logo`;
-        homeLogoImg.width = 50;
-        homeLogoImg.height = 50;
-        homeLogoCell.appendChild(homeLogoImg);
-        row.appendChild(homeLogoCell);
+//         // Home Team logo 셀
+//         const homeLogoCell = document.createElement('td');
+//         const homeLogoImg = document.createElement('img');
+//         homeLogoImg.src = fixture.teams.home.logo;
+//         homeLogoImg.alt = `${fixture.teams.home.name} logo`;
+//         homeLogoImg.width = 50;
+//         homeLogoImg.height = 50;
+//         homeLogoCell.appendChild(homeLogoImg);
+//         row.appendChild(homeLogoCell);
 
-        // Home Team name 셀
-        const homeNameCell = document.createElement('td');
-        homeNameCell.textContent = fixture.teams.home.name;
-        row.appendChild(homeNameCell);
+//         // Home Team name 셀
+//         const homeNameCell = document.createElement('td');
+//         homeNameCell.textContent = fixture.teams.home.name;
+//         row.appendChild(homeNameCell);
 
-        // Score 셀
-        const scoreCell = document.createElement('td');
-        if (fixture.goals.home === null || fixture.goals.away === null) {
-          scoreCell.textContent = '경기 전';
-        } else {
-          scoreCell.textContent = `${fixture.goals.home} - ${fixture.goals.away}`;
-        }
-        row.appendChild(scoreCell);
+//         // Score 셀
+//         const scoreCell = document.createElement('td');
+//         if (fixture.goals.home === null || fixture.goals.away === null) {
+//           scoreCell.textContent = '경기 전';
+//         } else {
+//           scoreCell.textContent = `${fixture.goals.home} - ${fixture.goals.away}`;
+//         }
+//         row.appendChild(scoreCell);
 
-        // Away Team name 셀
-        const awayNameCell = document.createElement('td');
-        awayNameCell.textContent = fixture.teams.away.name;
-        row.appendChild(awayNameCell);
+//         // Away Team name 셀
+//         const awayNameCell = document.createElement('td');
+//         awayNameCell.textContent = fixture.teams.away.name;
+//         row.appendChild(awayNameCell);
 
-        // Away Team logo 셀
-        const awayLogoCell = document.createElement('td');
-        const awayLogoImg = document.createElement('img');
-        awayLogoImg.src = fixture.teams.away.logo;
-        awayLogoImg.alt = `${fixture.teams.away.name} logo`;
-        awayLogoImg.width = 50;
-        awayLogoImg.height = 50;
-        awayLogoCell.appendChild(awayLogoImg);
-        row.appendChild(awayLogoCell);
+//         // Away Team logo 셀
+//         const awayLogoCell = document.createElement('td');
+//         const awayLogoImg = document.createElement('img');
+//         awayLogoImg.src = fixture.teams.away.logo;
+//         awayLogoImg.alt = `${fixture.teams.away.name} logo`;
+//         awayLogoImg.width = 50;
+//         awayLogoImg.height = 50;
+//         awayLogoCell.appendChild(awayLogoImg);
+//         row.appendChild(awayLogoCell);
 
-        // 일정코드 셀
-        const idCell = document.createElement('td');
-        idCell.textContent = fixture.fixture.fixtureId;
-        row.appendChild(idCell);
+//         // 일정코드 셀
+//         const idCell = document.createElement('td');
+//         idCell.textContent = fixture.fixture.fixtureId;
+//         row.appendChild(idCell);
 
-        // 승부예측 바로가기 셀
-        const predictionCell = document.createElement('td');
-        const predictionButton = document.createElement('button');
-        predictionButton.textContent = '승부예측';
-        predictionButton.classList.add('btn', 'btn-outline-dark');
-        predictionButton.onclick = function () {
-          window.location.href = '/predictions/<%= fixture.fixture.fixtureId %>'
-        };
-        predictionCell.appendChild(predictionButton);
-        row.appendChild(predictionCell);
+//         // 승부예측 바로가기 셀
+//         const predictionCell = document.createElement('td');
+//         const predictionButton = document.createElement('button');
+//         predictionButton.textContent = '승부예측';
+//         predictionButton.classList.add('btn', 'btn-outline-dark');
+//         predictionButton.onclick = function () {
+//           window.location.href = '/predictions/<%= fixture.fixture.fixtureId %>'
+//         };
+//         predictionCell.appendChild(predictionButton);
+//         row.appendChild(predictionCell);
 
-        tableBody.appendChild(row);
-      });
-    })
-    .catch(console.error);
+//         tableBody.appendChild(row);
+//       });
+//     })
+//     .catch(console.error);
+// }
+
+async function loadFixtures(currentYear, currentMonth) {
+  try {
+    const response = await axios.get(`/fixtures/${leagueId}?year=${currentYear}&month=${currentMonth}`);
+    const fixtures = response.data;
+
+    const tableBody = document.querySelector('tbody');
+    tableBody.innerHTML = ''; // 기존 행 삭제
+
+    fixtures.forEach(fixture => {
+      const row = document.createElement('tr');
+
+      // 경기일자 셀
+      const dateCell = document.createElement('td');
+      dateCell.textContent = new Date(fixture.fixture.date).toLocaleString();
+      row.appendChild(dateCell);
+
+      // Home Team logo 셀
+      const homeLogoCell = document.createElement('td');
+      const homeLogoImg = document.createElement('img');
+      homeLogoImg.src = fixture.teams.home.logo;
+      homeLogoImg.alt = `${fixture.teams.home.name} logo`;
+      homeLogoImg.width = 50;
+      homeLogoImg.height = 50;
+      homeLogoCell.appendChild(homeLogoImg);
+      row.appendChild(homeLogoCell);
+
+      // Home Team name 셀
+      const homeNameCell = document.createElement('td');
+      homeNameCell.textContent = fixture.teams.home.name;
+      row.appendChild(homeNameCell);
+
+      // Score 셀
+      const scoreCell = document.createElement('td');
+      if (fixture.goals.home === null || fixture.goals.away === null) {
+        scoreCell.textContent = '경기 전';
+      } else {
+        scoreCell.textContent = `${fixture.goals.home} - ${fixture.goals.away}`;
+      }
+      row.appendChild(scoreCell);
+
+      // Away Team name 셀
+      const awayNameCell = document.createElement('td');
+      awayNameCell.textContent = fixture.teams.away.name;
+      row.appendChild(awayNameCell);
+
+      // Away Team logo 셀
+      const awayLogoCell = document.createElement('td');
+      const awayLogoImg = document.createElement('img');
+      awayLogoImg.src = fixture.teams.away.logo;
+      awayLogoImg.alt = `${fixture.teams.away.name} logo`;
+      awayLogoImg.width = 50;
+      awayLogoImg.height = 50;
+      awayLogoCell.appendChild(awayLogoImg);
+      row.appendChild(awayLogoCell);
+
+      // 일정코드 셀
+      const idCell = document.createElement('td');
+      idCell.textContent = fixture.fixture.fixtureId;
+      row.appendChild(idCell);
+
+      // 승부예측 바로가기 셀
+      const predictionCell = document.createElement('td');
+      const predictionButton = document.createElement('button');
+      predictionButton.textContent = '승부예측';
+      predictionButton.classList.add('btn', 'btn-outline-dark');
+      predictionButton.onclick = function () {
+        window.location.href = `/predictions/${fixture.fixture.fixtureId}`;
+      };
+      predictionCell.appendChild(predictionButton);
+      row.appendChild(predictionCell);
+
+      tableBody.appendChild(row);
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
-
