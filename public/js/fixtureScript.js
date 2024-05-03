@@ -107,7 +107,7 @@ function loadFixtures(currentYear, currentMonth) {
         predictionButton.textContent = '승부예측';
         predictionButton.classList.add('btn', 'btn-outline-dark');
         predictionButton.onclick = function () {
-          window.location.href = `prediction.jsp?fixtureCode=${fixture.fixture.fixtureId}`;
+          window.location.href = '/predictions/<%= fixture.fixture.fixtureId %>'
         };
         predictionCell.appendChild(predictionButton);
         row.appendChild(predictionCell);

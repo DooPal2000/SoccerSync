@@ -4,7 +4,7 @@ const axios = require('axios');
 
 
 module.exports.searchFixtures = async (req, res) => {
-    const leagueId = req.params.id;
+    const leagueId = req.params.leagueId;
     let leagueName;
     let fixtures;
 
