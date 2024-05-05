@@ -31,21 +31,21 @@ module.exports.searchPredictions = async (req, res) => {
         const predictionsResponse = await axios.request(predictionsOptions);
 
 
-        const oddsData = oddsResponse.data.response;
-        const predictionsData = predictionsResponse.data.response;
+        const oddsData = oddsResponse.data.response[0];
+        const predictionsData = predictionsResponse.data.response[0];
 
         console.log(oddsData);
         console.log(predictionsData);
-        
-        const combinedData = {
-            odds: oddsData,
-            predictions: predictionsData
-        };
+
+        // const combinedData = {
+        //     odds: oddsData,
+        //     predictions: predictionsData
+        // };
 
 
         // 템플릿 렌더링
-        //res.render('prediction', { oddsData, predictionsData }); // 예시 템플릿 이름과 데이터 전달
-        res.json(combinedData);
+        res.render('prediction', { oddsData, predictionsData }); // 예시 템플릿 이름과 데이터 전달
+        //res.json(combinedData);
     } catch (error) {
         console.error(error);
         // 오류 처리
