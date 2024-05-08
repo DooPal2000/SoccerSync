@@ -40,6 +40,7 @@ module.exports.searchStandings = async (req, res) => {
                 }
                 else {
                     console.log(`API response for season ${season} is undefined or empty.`);
+                    console.log(`So We're getting ${season-1} standings...`);
                     season -= 1;
                 }
             } catch (error) {
@@ -81,6 +82,7 @@ module.exports.searchStandings = async (req, res) => {
                 }
                 else {
                     console.log(`API response for season ${season} is undefined or empty.`);
+                    console.log(`So We're getting ${season-1} standings...`);
                     season -= 1;
                 }
             } catch (error) {
