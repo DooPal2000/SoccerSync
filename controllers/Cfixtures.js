@@ -12,9 +12,16 @@ module.exports.searchFixtures = async (req, res) => {
     const today = new Date();
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth();
+    let seasonsToSave = [];
+    if(leagueId == 292 || leagueId == 293){
+        // 국내 리그
+        seasonsToSave = [currentYear];
+        // currentYear - 1, currentYear - 2    
+    } else { 
+        // 해외 리그일 경우에는, 현재 년도보다 -1 한 값에서 시즌이 시작(ex. 2023-2024 시즌) 하기에 조정해줍니다.
+        seasonsToSave = [currentYear - 1];
+    }
 
-    const seasonsToSave = [currentYear];
-    // currentYear - 1, currentYear - 2
     const { year, month } = req.query;
 
     if (!year || !month) {
@@ -42,6 +49,7 @@ module.exports.searchFixtures = async (req, res) => {
                 const response = await axios.request(options);
                 console.log(response.data.response);
                 fixtures = response.data.response;
+                
 
 
                 for (let fixture of fixtures) {
