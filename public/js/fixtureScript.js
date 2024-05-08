@@ -131,7 +131,8 @@ async function loadFixtures(currentYear, currentMonth) {
 
       // 경기일자 셀
       const dateCell = document.createElement('td');
-      dateCell.textContent = new Date(fixture.fixture.date).toLocaleString();
+      const dateString = new Date(fixture.fixture.date).toLocaleString('ko-KR', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true });
+      dateCell.textContent = dateString;
       row.appendChild(dateCell);
 
       // Home Team logo 셀
@@ -158,6 +159,7 @@ async function loadFixtures(currentYear, currentMonth) {
       }
       row.appendChild(scoreCell);
 
+
       // Away Team name 셀
       const awayNameCell = document.createElement('td');
       awayNameCell.textContent = fixture.teams.away.name;
@@ -172,6 +174,19 @@ async function loadFixtures(currentYear, currentMonth) {
       awayLogoImg.height = 50;
       awayLogoCell.appendChild(awayLogoImg);
       row.appendChild(awayLogoCell);
+
+
+      if (fixture.goals.home > fixture.goals.away) {
+        homeNameCell.style.backgroundColor = 'lightgreen'; // 이긴 팀은 청색으로
+        awayNameCell.style.backgroundColor = 'lightcoral'; // 진 팀은 붉은 색으로
+      } else if (fixture.goals.home < fixture.goals.away) {
+        homeNameCell.style.backgroundColor = 'lightcoral'; // 진 팀은 붉은 색으로
+        awayNameCell.style.backgroundColor = 'lightgreen'; // 이긴 팀은 청색으로
+      } else {
+        homeNameCell.style.backgroundColor = 'lightgray'; // 
+        awayNameCell.style.backgroundColor = 'lightgray';
+      }
+
 
       // 일정코드 셀
       const idCell = document.createElement('td');
