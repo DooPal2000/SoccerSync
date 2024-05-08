@@ -19,6 +19,8 @@ const { fixtureSchema } = require('./schemas.js');
 const fixtureRoutes = require('./routes/fixture.js');
 const standingRoutes = require('./routes/standing.js');
 const predictionRoutes = require('./routes/prediction.js');
+const analysisRoutes = require('./routes/analysis.js');
+
 const userRoutes = require('./routes/user.js');
 const postRoutes = require('./routes/post.js');
 const reviewRoutes = require('./routes/review.js');
@@ -99,6 +101,8 @@ app.use('/', userRoutes);
 app.use('/predictions', predictionRoutes);
 app.use('/fixtures', fixtureRoutes);
 app.use('/standings', standingRoutes);
+app.use('/analysis', analysisRoutes);
+
 // app.use('/posts', postRoutes);
 // app.use('/posts/:id/reviews', reviewRoutes);
 
