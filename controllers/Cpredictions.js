@@ -27,8 +27,13 @@ module.exports.searchPredictions = async (req, res) => {
         };
 
         // 각 API 호출을 await와 함께 사용하여 비동기로 실행
-        const oddsResponse = await axios.request(oddsOptions);
-        const predictionsResponse = await axios.request(predictionsOptions);
+        const oddsResponseBefore = axios.request(oddsOptions);
+        const predictionsResponseBefore = axios.request(predictionsOptions);
+
+        // 각각의 응답은 비동기 처리를 할 이유가 없어서, Promise 객체를 꺼내기 위해 await 를 따로 한다(시간상 이득)
+        const oddsResponse = await oddsResponseBefore;
+        const predictionsResponse = await predictionsResponseBefore;
+        
 
 
         const oddsData = oddsResponse.data.response[0];
@@ -45,7 +50,7 @@ module.exports.searchPredictions = async (req, res) => {
 
         // 템플릿 렌더링
         res.render('prediction', { oddsData, predictionsData }); // 예시 템플릿 이름과 데이터 전달
-        //res.json(combinedData);
+        //res.json(oddsData);
     } catch (error) {
         console.error(error);
         // 오류 처리
