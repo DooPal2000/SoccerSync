@@ -51,11 +51,12 @@
         <a href="#" class="btn btn-primary">Go somewhere</a>
       </div>
       <div class="card-footer text-body-secondary">
-        <% // oddsData의 fixture 객체에서 UTC 형식의 날짜를 가져옴 const utcDateStr=oddsData.fixture.date; // UTC 형식의 날짜를 JavaScript
-          Date 객체로 변환 const utcDate=new Date(utcDateStr); // UTC 형식의 날짜에 9시간을 더하여 한국 시간으로 변환
-          utcDate.setHours(utcDate.getHours() + 9); // 한국 시간으로 변환된 날짜를 yyyy-mm-dd hh:mm:ss 형식으로 표시 const
-          formattedDate=utcDate.toISOString().slice(0, 16).replace('T', ' ' ); %>
-          경기 킥오프 : <%= formattedDate %>
+        <% // oddsData의 fixture 객체에서 UTC 형식의 날짜를 가져옴
+        const utcDateStr=oddsData.fixture.date;    // UTC 형식의 날짜를 JavaScript  Date 객체로 변환
+        const utcDate=new Date(utcDateStr); // UTC 형식의 날짜에 9시간을 더하여 한국 시간으로 변환
+        utcDate.setHours(utcDate.getHours() + 9); // 한국 시간으로 변환된 날짜를 yyyy-mm-dd hh:mm:ss 형식으로 표시 const
+        formattedDate=utcDate.toISOString().slice(0, 16).replace('T', ' ' ); %>
+        경기 킥오프 : <%= formattedDate %>
 
       </div>
     </div>
