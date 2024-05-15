@@ -1,6 +1,7 @@
+const axios = require('axios');
+const ExpressError = require('../utils/ExpressError');
 const Fixture = require('../models/fixture');
 
-const axios = require('axios');
 
 
 module.exports.searchFixtures = async (req, res) => {
@@ -64,6 +65,7 @@ module.exports.searchFixtures = async (req, res) => {
 
             } catch (error) {
                 console.error(`Error fetching data for season ${season}:`, error);
+                throw new ExpressError('Internal Server Error', 500);
             }
         }
         fixtures = fixtures
