@@ -20,3 +20,4 @@ const TeamSchema = new Schema({
 });
 
 module.exports = mongoose.model('TeamSquad', TeamSchema);
+module.exports = mongoose.model('Player', PlayerSchema);
