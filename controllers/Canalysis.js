@@ -28,6 +28,18 @@ module.exports.searchTeams = async (req, res) => {
     try {
         const response = await axios.request(options);
         const teamData = response.data.response[0];
+        //선수 정보 저장
+        const playerPromises = teamData.players.map(async (playerData) => {
+            const existingPlayer = await Player.findOne({ id: playerData.id });
+            if (!existingPlayer) {
+                const newPlayer = new Player(playerData);
+                return newPlayer.save();
+            } else {
+                return existingPlayer;
+            }
+        })
+        const players = await Promise.all(playerPromises);
+
 
         // 팀 정보 저장
         const newTeam = new TeamSquad({
@@ -36,12 +48,13 @@ module.exports.searchTeams = async (req, res) => {
                 name: teamData.team.name,
                 logo: teamData.team.logo
             },
-            players: []
+            players: players.map(player => player._id)
         });
 
         await newTeam.save();
+        const populatedNewTeam = await TeamSquad.findById(newTeam._id).populate('players');
 
-        res.json(teamData); // 예시 템플릿 이름과 데이터 전달
+        res.json(populatedNewTeam); // 예시 템플릿 이름과 데이터 전달
 
     } catch (error) {
         console.error(error);
