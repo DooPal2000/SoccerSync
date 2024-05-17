@@ -19,5 +19,8 @@ const TeamSchema = new Schema({
     players: [{ type: Schema.Types.ObjectId, ref: 'Player' }] // 선수 정보 배열의 ObjectId 참조 
 });
 
-module.exports = mongoose.model('TeamSquad', TeamSchema);
-module.exports = mongoose.model('Player', PlayerSchema);
+const TeamSquad = mongoose.model('TeamSquad', TeamSchema);
+const Player = mongoose.model('Player', PlayerSchema);
+
+
+module.exports = { TeamSquad, Player };

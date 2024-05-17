@@ -1,7 +1,7 @@
 const axios = require('axios');
 const ExpressError = require('../utils/ExpressError');
-const TeamSquad = require('../models/teamSquad');
-const Player = require('../models/teamSquad');
+const { TeamSquad, Player } = require('../models/teamSquad');
+const { listenerCount } = require('../../YelpCamp-KY/models/review');
 
 module.exports.searchTeams = async (req, res) => {
     const teamId = req.params.teamId;
@@ -9,10 +9,20 @@ module.exports.searchTeams = async (req, res) => {
     // 팀이 이미 있는지 확인
     const existingTeam = await TeamSquad.findOne({ 'team.id': teamId });
 
-    // 팀이 이미 존재하는 경우
     if (existingTeam) {
-        res.json(existingTeam);
+        // existingTeam에서 players 필드를 populate
+        await existingTeam.populate('players');
+        try {
+            console.log(existingTeam);
+            return res.json(existingTeam);
+        } catch (error) {
+            // 저장하는 동안 에러가 발생했을 경우 처리
+            console.error('팀을 저장하는 동안 에러가 발생했습니다:', error);
+            return res.status(500).json({ error: '팀을 저장하는 동안 에러가 발생했습니다.' });
+        }
     }
+
+    
 
     // 새로운 팀 정보 가져오기
     const options = {
@@ -39,6 +49,7 @@ module.exports.searchTeams = async (req, res) => {
             }
         })
         const players = await Promise.all(playerPromises);
+        console.log(players);
 
 
         // 팀 정보 저장
@@ -50,37 +61,14 @@ module.exports.searchTeams = async (req, res) => {
             },
             players: players.map(player => player._id)
         });
+        console.log(newTeam);
+
+
 
         await newTeam.save();
         const populatedNewTeam = await TeamSquad.findById(newTeam._id).populate('players');
 
         res.json(populatedNewTeam); // 예시 템플릿 이름과 데이터 전달
-
-    } catch (error) {
-        console.error(error);
-        throw new ExpressError('Internal Server Error', 500);
-    }
-};
-
-
-module.exports.searchTeams = async (req, res) => {
-    const teamId = req.params.teamId;
-    await TeamSquad.deleteMany({ 'team.id': teamId });
-
-    const options = {
-        method: 'GET',
-        url: 'https://api-football-v1.p.rapidapi.com/v3/players/squads',
-        params: { team: teamId },
-        headers: {
-            'X-RapidAPI-Key': process.env.RapidApiKey,
-            'X-RapidAPI-Host': 'api-football-v1.p.rapidapi.com'
-        }
-    };
-
-    try {
-        const response = await axios.request(options);
-        console.log(response.data);
-        res.json(response.data); // 예시 템플릿 이름과 데이터 전달
 
     } catch (error) {
         console.error(error);
