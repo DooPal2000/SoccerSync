@@ -1,6 +1,20 @@
 
 let CurrSeason = season;
+document.addEventListener('DOMContentLoaded', function () {
+  // 모든 "팀 분석" 버튼을 선택
+  const analyzeButtons = document.querySelectorAll('.analyze-btn');
 
+  analyzeButtons.forEach(button => {
+    button.addEventListener('click', function () {
+      // 클릭된 버튼에서 팀 ID를 가져옴
+      const teamId = this.getAttribute('data-team-id');
+
+      // API 엔드포인트 
+      window.location.href = `/analysis/teams/${teamId}`;
+    });
+  });
+
+});
 function displayStandings(data) {
   const tableContainer = document.getElementById('standings-table');
   tableContainer.innerHTML = ''; // 기존 테이블 삭제
@@ -11,7 +25,7 @@ function displayStandings(data) {
   const thead = document.createElement('thead');
   const headerRow = document.createElement('tr');
   // 헤더에 필요한 컬럼들 추가
-  headerRow.innerHTML = '<th>Rank</th><th>Team</th><th>Logo</th><th>Played</th><th>Win</th><th>Draw</th><th>Lose</th><th>Points</th><th>GoalsDiff</th>';
+  headerRow.innerHTML = '<th>순위</th><th></th><th>팀명</th><th>경기 수</th><th>승리</th><th>무승부</th><th>패배</th><th>승점</th><th>골 득실차</th>';
   thead.appendChild(headerRow);
   table.appendChild(thead);
 
@@ -24,8 +38,8 @@ function displayStandings(data) {
     const row = document.createElement('tr');
     // 팀 데이터에서 필요한 정보들을 추가
     row.innerHTML = `<td>${team.rank}</td>
+                      <td><img src="${team.team.logo}" alt="${team.team.name}" style="max-width: 40px; max-height: 40px;"></td>
                        <td>${team.team.name}</td>
-                       <td><img src="${team.team.logo}" alt="${team.team.name}" style="max-width: 40px; max-height: 40px;"></td>
                        <td>${team.all.played}</td>
                        <td>${team.all.win}</td>
                        <td>${team.all.draw}</td>
