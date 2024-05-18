@@ -1,0 +1,45 @@
+<% layout('layouts/boilerplate')%>
+
+    <div class="container">
+
+        <div class="card border-primary mb-3">
+            <h5 class="card-header">팀 ID: <%= team.team.id %>
+            </h5>
+            <div class="card-body text-primary">
+                <h3 class="card-title"></h3>
+                <h1 class="my-4">
+                    <img src="<%= team.team.logo %>" alt="<%= team.team.name %>"
+                        style="max-width: 100px; max-height: 100px;">
+                    <%= team.team.name %> 스쿼드 분석
+                </h1>
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <% team.players.forEach((player, index)=> { %>
+                <% if (index % 4===0 && index !==0) { %>
+        </div>
+        <div class="row">
+            <% } %>
+                <div class="col-md-3 mb-3">
+                    <div class="card h-100 text-center">
+                        <img src="<%= player.photo %>" class="card-img-top" alt="<%= player.name %>"
+                            style="max-width: 100px; max-height: 100px; margin: auto;">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= player.name %>
+                            </h5>
+                            <p class="card-text">포지션: <%= player.position %>
+                            </p>
+                            <p class="card-text">나이: <%= player.age %>
+                            </p>
+                            <p class="card-text">Number: <%= player.number %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+    </div>

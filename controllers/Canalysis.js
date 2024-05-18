@@ -14,15 +14,15 @@ module.exports.searchTeams = async (req, res) => {
         await existingTeam.populate('players');
         try {
             console.log(existingTeam);
-            return res.json(existingTeam);
+            return res.render('team', { team: existingTeam });
         } catch (error) {
             // 저장하는 동안 에러가 발생했을 경우 처리
-            console.error('팀을 저장하는 동안 에러가 발생했습니다:', error);
-            return res.status(500).json({ error: '팀을 저장하는 동안 에러가 발생했습니다.' });
+            console.error('팀을 불러오는 동안 동안 에러가 발생했습니다:', error);
+            throw new ExpressError('팀을 불러오는 동안 에러가 발생했습니다', 500);
         }
     }
 
-    
+
 
     // 새로운 팀 정보 가져오기
     const options = {
@@ -68,11 +68,11 @@ module.exports.searchTeams = async (req, res) => {
         await newTeam.save();
         const populatedNewTeam = await TeamSquad.findById(newTeam._id).populate('players');
 
-        res.json(populatedNewTeam); // 예시 템플릿 이름과 데이터 전달
+        res.render('team', { team: populatedNewTeam }); // 예시 템플릿 이름과 데이터 전달
 
     } catch (error) {
         console.error(error);
-        throw new ExpressError('Internal Server Error', 500);
+        throw new ExpressError('팀을 저장하는 동안 에러가 발생했습니다', 500);
     }
 };
 
