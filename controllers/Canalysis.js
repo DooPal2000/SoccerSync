@@ -3,8 +3,20 @@ const ExpressError = require('../utils/ExpressError');
 const { TeamSquad, Player } = require('../models/teamSquad');
 const { listenerCount } = require('../../YelpCamp-KY/models/review');
 
+module.exports.showTeamSearch = (req, res) => {
+    res.render('teamSearch');
+};
+
+
+
 module.exports.searchTeams = async (req, res) => {
-    const teamId = req.params.teamId;
+    // Standing 페이지에서 들어온 Get 요청일 경우
+    let teamId = req.params.teamId;
+
+    // 팀 검색 페이지에서 들어온 Post 요청일 경우
+    if(!teamId){
+        teamId = req.body.teamId;
+    }
 
     // 팀이 이미 있는지 확인
     const existingTeam = await TeamSquad.findOne({ 'team.id': teamId });
@@ -76,6 +88,10 @@ module.exports.searchTeams = async (req, res) => {
     }
 };
 
+module.exports.showPlayerSearch = (req, res) => {
+    res.render('playerSearch');
+};
+
 module.exports.searchPlayers = async (req, res) => {
     const playerId = req.params.playerId;
 
@@ -88,8 +104,6 @@ module.exports.searchPlayers = async (req, res) => {
         console.error(error);
         throw new ExpressError('Internal Server Error', 500);
     }
-
-
 
 };
 
