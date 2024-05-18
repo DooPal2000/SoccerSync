@@ -1,0 +1,26 @@
+<% layout('layouts/boilerplate')%>
+
+    <div class="container d-flex justify-content-center align-items-center mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-xl-6 offset-xl-4">
+                <div class="card shadow">
+                    <img src="https://images.unsplash.com/flagged/photo-1568105631375-d992b82a905b?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="" class="card-img-top" />
+                    <div class="card-body">
+                        <h5 class="card-title">팀 검색</h5>
+
+                        <form action="/analysis/teams" method="POST" class="validated-form" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label" for="teamId">팀 ID를 입력하세요. <br> 팀 ID를 모르신다면, Standings 페이지를 참고하세요.</label>
+                                <input class="form-control" type="text" id="teamId" name="teamId" autofocus required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">검색하기</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

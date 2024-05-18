@@ -1,0 +1,26 @@
+<% layout('layouts/boilerplate')%>
+
+    <div class="container d-flex justify-content-center align-items-center mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-xl-6 offset-xl-4">
+                <div class="card shadow">
+                    <img src="https://i.pinimg.com/736x/65/77/74/657774dc4d575e75c7f33a40c56dbdb7.jpg"
+                        alt="" class="card-img-top" />
+                    <div class="card-body">
+                        <h5 class="card-title">팀 검색</h5>
+
+                        <form action="/analysis/players" method="POST" class="validated-form" novalidate>
+                            <div class="mb-3">
+                                <label class="form-label" for="teamId">선수 ID를 입력하세요. <br>ID는 팀 분석 페이지를 참고하세요.</label>
+                                <input class="form-control" type="text" id="teamId" name="teamId" autofocus required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">검색하기</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
