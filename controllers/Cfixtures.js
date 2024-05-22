@@ -14,8 +14,10 @@ module.exports.searchFixtures = async (req, res) => {
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth();
     let seasonsToSave = [];
-    if(leagueId == 292 || leagueId == 293){
-        // 국내 리그
+    const asianLeagues = new Set([292, 293, 98, 99]);
+
+    if(asianLeagues.has(leagueId)){
+        // 아시아 리그
         seasonsToSave = [currentYear];
         // currentYear - 1, currentYear - 2    
     } else { 
