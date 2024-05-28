@@ -19,7 +19,7 @@ const PostingSchema = new Schema({
     ]
 });
 
-CampgroundSchema.post('findOneAndDelete', async function (doc) {
+PostingSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {
         await Review.deleteMany({
             _id: {
@@ -29,4 +29,4 @@ CampgroundSchema.post('findOneAndDelete', async function (doc) {
     }
 })
 
-module.exports = mongoose.model('Posting', PostSchema);
+module.exports = mongoose.model('Posting', PostingSchema);
