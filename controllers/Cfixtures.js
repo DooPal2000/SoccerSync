@@ -14,7 +14,8 @@ module.exports.searchFixtures = async (req, res) => {
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth();
     let seasonsToSave = [];
-    const asianLeagues = new Set([292, 293, 98, 99]);
+    const asianLeagues = new Set(['292', '293', '98', '99']);
+    console.log(`Current Year: ${currentYear}, Current Month: ${currentMonth}`);
 
     if(asianLeagues.has(leagueId)){
         // 아시아 리그
@@ -50,7 +51,7 @@ module.exports.searchFixtures = async (req, res) => {
 
             try {
                 const response = await axios.request(options);
-                console.log(response.data.response);
+                //console.log(response.data.response);
                 fixtures = response.data.response;
                 
 
