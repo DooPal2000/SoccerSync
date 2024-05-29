@@ -102,6 +102,7 @@ app.use('/predictions', predictionRoutes);
 app.use('/fixtures', fixtureRoutes);
 app.use('/standings', standingRoutes);
 app.use('/analysis', analysisRoutes);
+// app.use('/compare', analysisRoutes);
 
 // app.use('/posts', postRoutes);
 // app.use('/posts/:id/reviews', reviewRoutes);
@@ -112,6 +113,9 @@ app.get('/', (req, res) => {
 });
 app.get('/home', (req, res) => {
   res.render('home');
+});
+app.get('/compare', (req, res) => {
+  res.render('compare');
 });
 
 
