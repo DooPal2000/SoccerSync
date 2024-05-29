@@ -2,9 +2,26 @@
 
 
   <div class="container">
-    <h1>
-      🏆️ Standings
-    </h1>
+
+    <div class="row justify-content-center gx-5">
+      <div class="col-md-6">
+        <div class="card shadow mb-4">
+          <div class="card-body text-center">
+            <h1>
+              🏆️ Standings
+            </h1>
+            <h1 class="card-title">리그명: <%= standings.league.name %> <img src="<%= standings.league.flag %>"
+                  width="50px" height="50px" alt="국가 깃발" class="mb-3">
+            </h1>
+            <h2 class="card-title">소속 국가: <%= standings.league.country %><img src="<%= standings.league.logo %>"
+                  width="50px" height="50px" alt="리그 로고" class="mb-3">
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <div class="container">
       <div class="row justify-content-center gx-5">
         <h1>리그명: <%= standings.league.name %> <img src="<%= standings.league.logo%>" width="50px" height="50px" alt="">
@@ -41,7 +58,7 @@
               <th>패배</th>
               <th>승점</th>
               <th>골 득실차</th>
-              <th>팀 분석</th> 
+              <th>팀 분석</th>
             </tr>
           </thead>
           <tbody>
@@ -73,7 +90,8 @@
                 <td>
                   <%= team.goalsDiff %>
                 </td>
-                <td><button class="btn btn-outline-dark analyze-btn" data-team-id="<%= team.team.id %>" >팀 분석</button></td>
+                <td><button class="btn btn-outline-dark analyze-btn" data-team-id="<%= team.team.id %>">팀 분석</button>
+                </td>
               </tr>
               <% }); %>
           </tbody>
@@ -81,8 +99,8 @@
       </div>
     </div>
   </div>
-  <script> const season = <%- JSON.stringify(standings.league.season) %>;
-    const leagueId = <%- JSON.stringify(standings.league.id) %>
+  <script> const season = <% - JSON.stringify(standings.league.season) %>;
+    const leagueId = <% - JSON.stringify(standings.league.id) %>
   </script>
 
   <script src="/js/standingScript.js"> </script>
