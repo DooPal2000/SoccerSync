@@ -118,6 +118,10 @@ app.get('/compare', (req, res) => {
   res.render('compare');
 });
 
+app.get('/test', (req, res) => {
+  res.render('test');
+});
+
 
 // app.get('/fixtures/:id', catchAsync(async (req, res) => {
 //   const leagueId = req.params.id;
