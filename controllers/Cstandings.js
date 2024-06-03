@@ -37,6 +37,10 @@ module.exports.searchStandings = async (req, res) => {
                 if (Array.isArray(response.data.response) && response.data.response.length > 0) {
                     resultFlag = true;
                     standings = response.data.response[0];
+                    console.log(`YOU ARE GETTING API response`);
+                    console.log(standings);
+                    console.log(standings.league.season);
+                    console.log(standings.league.id);
                 }
                 else {
                     console.log(`API response for season ${season} is undefined or empty.`);
