@@ -1,170 +1,14 @@
 <% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="css/compare.css">
 
     <div class="container my-4">
         <!-- 페이지 헤더 -->
         <div class="row justify-content-center mb-4">
             <div class="col text-center">
-                <h1>J리그 vs K리그 기본 정보 비교</h1>
+                <h1>K리그 vs J리그 기본 정보 비교</h1>
             </div>
         </div>
 
-        <!-- 전체 아코디언 -->
-        <div class="accordion mb-3" id="leagueComparisonAccordion">
-            <!-- 리그 시스템 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingSystem">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseSystem" aria-expanded="true" aria-controls="collapseSystem">
-                        리그 시스템
-                    </button>
-                </h2>
-                <div id="collapseSystem" class="accordion-collapse collapse show" aria-labelledby="headingSystem"
-                    data-bs-parent="#leagueComparisonAccordion">
-                    <div class="accordion-body">
-                        <strong>J리그:</strong> 1부 리그와 2부 리그로 구성, 승강제 도입<br>
-                        <strong>K리그:</strong> 1부 리그와 2부 리그로 구성, 승강제 도입
-                    </div>
-                </div>
-            </div>
-
-            <!-- 관중 수 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingAttendance">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseAttendance" aria-expanded="false" aria-controls="collapseAttendance">
-                        관중 수
-                    </button>
-                </h2>
-                <div id="collapseAttendance" class="accordion-collapse collapse" aria-labelledby="headingAttendance"
-                    data-bs-parent="#leagueComparisonAccordion">
-                    <div class="accordion-body">
-                        <strong>J리그:</strong> 평균 15,000명<br>
-                        <strong>K리그:</strong> 평균 10,000명
-                    </div>
-                </div>
-            </div>
-
-            <!-- 구장 정보 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingStadiums">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseStadiums" aria-expanded="false" aria-controls="collapseStadiums">
-                        구장 정보
-                    </button>
-                </h2>
-                <div id="collapseStadiums" class="accordion-collapse collapse" aria-labelledby="headingStadiums"
-                    data-bs-parent="#leagueComparisonAccordion">
-                    <div class="accordion-body">
-                        <strong>J리그:</strong> 약 40개의 구장<br>
-                        <strong>K리그:</strong> 약 20개의 구장
-                    </div>
-                </div>
-            </div>
-
-            <!-- 티켓 가격 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingTicketPrice">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseTicketPrice" aria-expanded="false" aria-controls="collapseTicketPrice">
-                        티켓 가격
-                    </button>
-                </h2>
-                <div id="collapseTicketPrice" class="accordion-collapse collapse" aria-labelledby="headingTicketPrice"
-                    data-bs-parent="#leagueComparisonAccordion">
-                    <div class="accordion-body">
-                        <strong>J리그:</strong> 평균 2,500엔<br>
-                        <strong>K리그:</strong> 평균 15,000원
-                    </div>
-                </div>
-            </div>
-
-            <!-- 상금 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingPrize">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapsePrize" aria-expanded="false" aria-controls="collapsePrize">
-                        상금
-                    </button>
-                </h2>
-                <div id="collapsePrize" class="accordion-collapse collapse" aria-labelledby="headingPrize"
-                    data-bs-parent="#leagueComparisonAccordion">
-                    <div class="accordion-body">
-                        <strong>J리그:</strong> 우승 상금 1억엔<br>
-                        <strong>K리그:</strong> 우승 상금 5억 원
-                    </div>
-                </div>
-            </div>
-
-            <!-- 문화 및 스타일 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingCulture">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseCulture" aria-expanded="false" aria-controls="collapseCulture">
-                        문화 및 스타일
-                    </button>
-                </h2>
-                <div id="collapseCulture" class="accordion-collapse collapse" aria-labelledby="headingCulture"
-                    data-bs-parent="#leagueComparisonAccordion">
-                    <div class="accordion-body">
-                        <strong>J리그:</strong> 기술적이고 빠른 경기<br>
-                        <strong>K리그:</strong> 조직적이고 강력한 경기
-                    </div>
-                </div>
-            </div>
-
-            <!-- 팀 컬러 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingTeamColor">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseTeamColor" aria-expanded="false" aria-controls="collapseTeamColor">
-                        팀 컬러
-                    </button>
-                </h2>
-                <div id="collapseTeamColor" class="accordion-collapse collapse" aria-labelledby="headingTeamColor"
-                    data-bs-parent="#leagueComparisonAccordion">
-                    <div class="accordion-body">
-                        <strong>J리그:</strong> 다양한 색상의 팀 컬러<br>
-                        <strong>K리그:</strong> 강렬한 색상의 팀 컬러
-                    </div>
-                </div>
-            </div>
-
-            <!-- 대표 팀 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingRepresentativeTeams">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseRepresentativeTeams" aria-expanded="false"
-                        aria-controls="collapseRepresentativeTeams">
-                        대표 팀
-                    </button>
-                </h2>
-                <div id="collapseRepresentativeTeams" class="accordion-collapse collapse"
-                    aria-labelledby="headingRepresentativeTeams" data-bs-parent="#leagueComparisonAccordion">
-                    <div class="accordion-body">
-                        <strong>J리그:</strong> 우라와 레즈, 가와사키 프론탈레<br>
-                        <strong>K리그:</strong> 전북 현대 모터스, 울산 현대
-                    </div>
-                </div>
-            </div>
-
-            <!-- 선수 특징 -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingPlayerCharacteristics">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapsePlayerCharacteristics" aria-expanded="false"
-                        aria-controls="collapsePlayerCharacteristics">
-                        선수 특징
-                    </button>
-                </h2>
-                <div id="collapsePlayerCharacteristics" class="accordion-collapse collapse"
-                    aria-labelledby="headingPlayerCharacteristics" data-bs-parent="#leagueComparisonAccordion">
-                    <div class="accordion-body">
-                        <strong>J리그:</strong> 기술적이고 빠른 선수<br>
-                        <strong>K리그:</strong> 체력적이고 강한 선수
-                    </div>
-                </div>
-            </div>
-        </div>
 
 
 
@@ -262,5 +106,164 @@
                 </div>
             </div>
         </div>
+
+                <!-- 전체 아코디언 -->
+                <div class="accordion mb-3" id="leagueComparisonAccordion">
+                    <!-- 리그 시스템 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingSystem">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseSystem" aria-expanded="true" aria-controls="collapseSystem">
+                                리그 시스템
+                            </button>
+                        </h2>
+                        <div id="collapseSystem" class="accordion-collapse collapse show" aria-labelledby="headingSystem"
+                            data-bs-parent="#leagueComparisonAccordion">
+                            <div class="accordion-body">
+                                <strong>J리그:</strong> 1부 리그와 2부 리그로 구성, 승강제 도입<br>
+                                <strong>K리그:</strong> 1부 리그와 2부 리그로 구성, 승강제 도입
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- 관중 수 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingAttendance">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseAttendance" aria-expanded="false" aria-controls="collapseAttendance">
+                                관중 수
+                            </button>
+                        </h2>
+                        <div id="collapseAttendance" class="accordion-collapse collapse" aria-labelledby="headingAttendance"
+                            data-bs-parent="#leagueComparisonAccordion">
+                            <div class="accordion-body">
+                                <strong>J리그:</strong> 평균 15,000명<br>
+                                <strong>K리그:</strong> 평균 10,000명
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- 구장 정보 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingStadiums">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseStadiums" aria-expanded="false" aria-controls="collapseStadiums">
+                                구장 정보
+                            </button>
+                        </h2>
+                        <div id="collapseStadiums" class="accordion-collapse collapse" aria-labelledby="headingStadiums"
+                            data-bs-parent="#leagueComparisonAccordion">
+                            <div class="accordion-body">
+                                <strong>J리그:</strong> 약 40개의 구장<br>
+                                <strong>K리그:</strong> 약 20개의 구장
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- 티켓 가격 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTicketPrice">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTicketPrice" aria-expanded="false" aria-controls="collapseTicketPrice">
+                                티켓 가격
+                            </button>
+                        </h2>
+                        <div id="collapseTicketPrice" class="accordion-collapse collapse" aria-labelledby="headingTicketPrice"
+                            data-bs-parent="#leagueComparisonAccordion">
+                            <div class="accordion-body">
+                                <strong>J리그:</strong> 평균 2,500엔<br>
+                                <strong>K리그:</strong> 평균 15,000원
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- 상금 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingPrize">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePrize" aria-expanded="false" aria-controls="collapsePrize">
+                                상금
+                            </button>
+                        </h2>
+                        <div id="collapsePrize" class="accordion-collapse collapse" aria-labelledby="headingPrize"
+                            data-bs-parent="#leagueComparisonAccordion">
+                            <div class="accordion-body">
+                                <strong>J리그:</strong> 우승 상금 1억엔<br>
+                                <strong>K리그:</strong> 우승 상금 5억 원
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- 문화 및 스타일 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingCulture">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseCulture" aria-expanded="false" aria-controls="collapseCulture">
+                                문화 및 스타일
+                            </button>
+                        </h2>
+                        <div id="collapseCulture" class="accordion-collapse collapse" aria-labelledby="headingCulture"
+                            data-bs-parent="#leagueComparisonAccordion">
+                            <div class="accordion-body">
+                                <strong>J리그:</strong> 기술적이고 빠른 경기<br>
+                                <strong>K리그:</strong> 조직적이고 강력한 경기
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- 팀 컬러 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTeamColor">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTeamColor" aria-expanded="false" aria-controls="collapseTeamColor">
+                                팀 컬러
+                            </button>
+                        </h2>
+                        <div id="collapseTeamColor" class="accordion-collapse collapse" aria-labelledby="headingTeamColor"
+                            data-bs-parent="#leagueComparisonAccordion">
+                            <div class="accordion-body">
+                                <strong>J리그:</strong> 다양한 색상의 팀 컬러<br>
+                                <strong>K리그:</strong> 강렬한 색상의 팀 컬러
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- 대표 팀 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingRepresentativeTeams">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseRepresentativeTeams" aria-expanded="false"
+                                aria-controls="collapseRepresentativeTeams">
+                                대표 팀
+                            </button>
+                        </h2>
+                        <div id="collapseRepresentativeTeams" class="accordion-collapse collapse"
+                            aria-labelledby="headingRepresentativeTeams" data-bs-parent="#leagueComparisonAccordion">
+                            <div class="accordion-body">
+                                <strong>J리그:</strong> 우라와 레즈, 가와사키 프론탈레<br>
+                                <strong>K리그:</strong> 전북 현대 모터스, 울산 현대
+                            </div>
+                        </div>
+                    </div>
+        
+                    <!-- 선수 특징 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingPlayerCharacteristics">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePlayerCharacteristics" aria-expanded="false"
+                                aria-controls="collapsePlayerCharacteristics">
+                                선수 특징
+                            </button>
+                        </h2>
+                        <div id="collapsePlayerCharacteristics" class="accordion-collapse collapse"
+                            aria-labelledby="headingPlayerCharacteristics" data-bs-parent="#leagueComparisonAccordion">
+                            <div class="accordion-body">
+                                <strong>J리그:</strong> 기술적이고 빠른 선수<br>
+                                <strong>K리그:</strong> 체력적이고 강한 선수
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
     </div>
 
