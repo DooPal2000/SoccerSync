@@ -6,7 +6,7 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.renderNewForm = (req, res) => {
-    res.render('posts/new');
+    res.render('postings/new');
 }
 
 module.exports.createPost = async (req, res, next) => {
