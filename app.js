@@ -41,8 +41,6 @@ mongoose
     console.error("Connection failed:", e);
   });
 
-
-
 const app = express();
 
 app.engine('ejs', ejsMate);
@@ -102,9 +100,9 @@ app.use('/predictions', predictionRoutes);
 app.use('/fixtures', fixtureRoutes);
 app.use('/standings', standingRoutes);
 app.use('/analysis', analysisRoutes);
+app.use('/post', postRoutes);
 // app.use('/compare', analysisRoutes);
 
-// app.use('/posts', postRoutes);
 // app.use('/posts/:id/reviews', reviewRoutes);
 
 
