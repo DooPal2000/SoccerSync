@@ -28,6 +28,8 @@
                         <img src="<%= player.photo %>" class="card-img-top" alt="<%= player.name %>"
                             style="max-width: 100px; max-height: 100px; margin: auto;">
                         <div class="card-body">
+                            <p class="card-text">등 번호: <%= player.number %>
+                            </p>
                             <h5 class="card-title">
                                 <%= player.name %>
                             </h5>
@@ -35,11 +37,14 @@
                             </p>
                             <p class="card-text">나이: <%= player.age %>
                             </p>
-                            <p class="card-text">Number: <%= player.number %>
+                            <p class="card-text">선수 고유 ID: <%= player.id %>
                             </p>
+                            <button class="btn btn-outline-dark analyze-player-btn" data-player-id="<%= player.id %>">선수 분석</button>
                         </div>
                     </div>
                 </div>
                 <% }); %>
+                
         </div>
+        <script src="/js/teamScript.js"> </script>
     </div>

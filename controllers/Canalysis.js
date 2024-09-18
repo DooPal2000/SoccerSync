@@ -10,12 +10,14 @@ module.exports.showTeamSearch = (req, res) => {
 
 
 module.exports.searchTeams = async (req, res) => {
-    // Standing 페이지에서 들어온 Get 요청일 경우
-    let teamId = req.params.teamId;
+    // 1. Standing 페이지에서 들어온 Get 요청일 경우
+    // 2. 팀 검색 페이지에서 들어온 Post 요청일 경우
+    let teamId = req.params.teamId || req.body.teamId;
 
-    // 팀 검색 페이지에서 들어온 Post 요청일 경우
+    console.log(teamId);
+
     if(!teamId){
-        teamId = req.body.teamId;
+        throw new ExpressError('해당 팀이 존재하지 않습니다.', 404);
     }
 
     // 팀이 이미 있는지 확인
@@ -84,7 +86,7 @@ module.exports.searchTeams = async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        throw new ExpressError('팀을 저장하는 동안 에러가 발생했습니다', 500);
+        throw new ExpressError('팀을 불러오는 동안 동안 에러가 발생했습니다', 500);
     }
 };
 
