@@ -16,7 +16,7 @@ module.exports.searchTeams = async (req, res) => {
 
     console.log(teamId);
 
-    if(!teamId){
+    if (!teamId) {
         throw new ExpressError('해당 팀이 존재하지 않습니다.', 404);
     }
 
@@ -95,17 +95,26 @@ module.exports.showPlayerSearch = (req, res) => {
 };
 
 module.exports.searchPlayers = async (req, res) => {
-    const playerId = req.params.playerId;
+    const playerId = req.params.playerId || req.body.playerId;
+
+    const options = {
+        method: 'GET',
+        url: 'https://api-football-v1.p.rapidapi.com/v3/players',
+        params: {
+            id: playerId,
+            season: '2024'
+        },
+        headers: {
+            'x-rapidapi-key': '735987fbd7mshc0c8b4d80a39ab8p19e685jsn1cb7e725f808',
+            'x-rapidapi-host': 'api-football-v1.p.rapidapi.com'
+        }
+    };
 
     try {
-
-        // 템플릿 렌더링
-        res.render('prediction', { oddsData, predictionsData }); // 예시 템플릿 이름과 데이터 전달
-        //res.json(combinedData);
+        const response = await axios.request(options);
+        console.log(response.data);
     } catch (error) {
         console.error(error);
-        throw new ExpressError('Internal Server Error', 500);
     }
-
 };
 
