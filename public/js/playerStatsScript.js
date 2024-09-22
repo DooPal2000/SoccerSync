@@ -8,8 +8,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
         button.addEventListener('click', function () {
 
-            // 클릭된 버튼에서 선수 ID를 가져옴
-            const playerId = this.getAttribute('data-player-id');
+            // 클릭된 버튼에서 선수 ID를 가져옴 (team.ejs)
+            let playerId = this.getAttribute('data-player-id');
+
+            // 'data-player-id' 속성이 없는 경우, input 필드에서 값 가져오기 (playerSearch.ejs)
+            if (!playerId) {
+                const playerIdInput = document.getElementById('playerId');
+                playerId = playerIdInput.value.trim();
+
+                // 입력값 검증
+                if (!playerId) {
+                    playerIdInput.classList.add('is-invalid'); // 유효성 검사 실패 시 스타일 적용
+
+                    // 경고창 표시
+                    Swal.fire({
+                        title: '오류!',
+                        text: '선수 ID를 입력해야 합니다.',
+                        icon: 'warning',
+                        confirmButtonText: '확인'
+                    });
+                    return;
+                } else {
+                    playerIdInput.classList.remove('is-invalid');
+                }
+            }
+
             console.log(playerId);
 
             // axios를 사용하여 POST 요청 전송

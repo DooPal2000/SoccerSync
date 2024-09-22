@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <h5 class="card-title">선수 검색</h5>
 
-                        <form action="/analysis/players" method="POST" class="validated-form" novalidate>
+                        <!-- <form action="/analysis/players" method="POST" class="validated-form" novalidate>
                             <div class="mb-3">
                                 <label class="form-label" for="playerId">선수 ID를 입력하세요. <br>ID는 팀 분석 페이지를 참고하세요.</label>
                                 <input class="form-control" type="text" id="playerId" name="playerId" autofocus required>
@@ -18,9 +18,19 @@
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">검색하기</button>
-                        </form>
+                        </form> -->
+                        <div class="mb-3">
+                            <label class="form-label" for="playerId">선수 ID를 입력하세요. <br>ID는 팀 분석 페이지를 참고하세요.</label>
+                            <input class="form-control" type="text" id="playerId" name="playerId" required>
+                            <div class="invalid-feedback">
+                                선수 ID를 입력해야 합니다.
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block analyze-player-btn">검색하기</button>    
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script type="module" src="/js/playerStatsScript.js"> </script>
+
