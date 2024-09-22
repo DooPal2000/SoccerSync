@@ -58,8 +58,6 @@ document.addEventListener('DOMContentLoaded', function () {
                             popup: 'swal-popup'
                         }
                     });
-                    console.log('suc 응답 데이터:', response); // 전체 응답 객체 확인
-                    console.log('suc 응답 JSON 데이터:', response.data.response[0]); // JSON 데이터만 확인
                 })
                 .catch(error => {
                     //throw new ExpressError('선수 분석 중 에러 발생', 500);

@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 });
+
 function displayStandings(data) {
   const tableContainer = document.getElementById('standings-table');
   tableContainer.innerHTML = ''; // 기존 테이블 삭제
@@ -25,7 +26,7 @@ function displayStandings(data) {
   const thead = document.createElement('thead');
   const headerRow = document.createElement('tr');
   // 헤더에 필요한 컬럼들 추가
-  headerRow.innerHTML = '<th>순위</th><th></th><th>팀명</th><th>경기 수</th><th>승리</th><th>무승부</th><th>패배</th><th>승점</th><th>골 득실차</th>';
+  headerRow.innerHTML = '<th style="text-align: center;">순위</th><th style="text-align: center;"></th><th style="text-align: center;">팀명</th><th style="text-align: center;">경기 수</th><th style="text-align: center;">승리</th><th style="text-align: center;">무승부</th><th style="text-align: center;">패배</th><th style="text-align: center;">승점</th><th style="text-align: center;">골 득실차</th>';
   thead.appendChild(headerRow);
   table.appendChild(thead);
 
@@ -37,15 +38,15 @@ function displayStandings(data) {
   lastStandings.forEach(team => {
     const row = document.createElement('tr');
     // 팀 데이터에서 필요한 정보들을 추가
-    row.innerHTML = `<td>${team.rank}</td>
-                      <td><img src="${team.team.logo}" alt="${team.team.name}" style="max-width: 40px; max-height: 40px;"></td>
-                       <td>${team.team.name}</td>
-                       <td>${team.all.played}</td>
-                       <td>${team.all.win}</td>
-                       <td>${team.all.draw}</td>
-                       <td>${team.all.lose}</td>
-                       <td>${team.points}</td>
-                       <td>${team.goalsDiff}</td>`;
+    row.innerHTML = `<td style="text-align: center;">${team.rank}</td>
+                      <td style="text-align: center;"><img src="${team.team.logo}" alt="${team.team.name}" style="max-width: 40px; max-height: 40px;"></td>
+                       <td style="text-align: center;">${team.team.name}</td>
+                       <td style="text-align: center;">${team.all.played}</td>
+                       <td style="text-align: center;">${team.all.win}</td>
+                       <td style="text-align: center;">${team.all.draw}</td>
+                       <td style="text-align: center;">${team.all.lose}</td>
+                       <td style="text-align: center;">${team.points}</td>
+                       <td style="text-align: center;">${team.goalsDiff}</td>`;
     tbody.appendChild(row);
   });
   table.appendChild(tbody);
@@ -53,6 +54,7 @@ function displayStandings(data) {
   // 테이블을 컨테이너에 추가
   tableContainer.appendChild(table);
 }
+
 // 이전 시즌 버튼 클릭 시
 document.getElementById('prevYearBtn').addEventListener('click', function () {
   changeStandingSeason(-1);
