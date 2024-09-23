@@ -1,5 +1,6 @@
-const { campgroundSchema, reviewSchema } = require('./schemas.js');
+const { postSchema, reviewSchema } = require('./schemas.js');
 const  ExpressError = require('./utils/ExpressError.js');
+const Posting = require('./models/posting.js');
 const Review = require('./models/review');
 
 module.exports.isLoggedIn = (req, res, next) => {
@@ -21,7 +22,7 @@ module.exports.storeReturnTo = (req, res, next) => {
 }
 
 module.exports.validatePost = (req, res, next) => {
-    const { error } = campgroundSchema.validate(req.body);
+    const { error } = postSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 400)
@@ -32,10 +33,10 @@ module.exports.validatePost = (req, res, next) => {
 
 module.exports.isAuthor = async (req, res, next) => {
     const { id } = req.params;
-    const campground = await Campground.findById(id);
-    if (!campground.author.equals(req.user._id)) {
+    const posting = await Posting.findById(id);
+    if (!posting.author.equals(req.user._id)) {
         req.flash('error', 'You do not have permission to to that!');
-        return res.redirect(`/campgrounds/${id}`);
+        return res.redirect(`/post/${id}`);
     }
     next();
 }

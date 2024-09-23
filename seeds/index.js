@@ -35,7 +35,7 @@ const sample = array =>
 
 const seedDB = async () => {
   await Posting.deleteMany({});
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 15; i++) {
     const randomIndex = Math.floor(Math.random() * teams.length);
     if (!teams[randomIndex]) {
       console.error(`Invalid team at index ${randomIndex}`);
@@ -47,7 +47,7 @@ const seedDB = async () => {
       author: '65de081bf0e630e741fc9d2c',
       location: `${teams[randomIndex].team}, ${teams[randomIndex].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
-      image: 'https://source.unsplash.com/collection/483251',
+      image: 'https://images.unsplash.com/photo-1505843687871-669c89088b12?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       description: 'This is a post about the team and their performance in the latest season.',
       price,
       geometry: {
@@ -59,8 +59,8 @@ const seedDB = async () => {
       },
       images: [
         {
-          url: 'https://res.cloudinary.com/dwtgvozjf/image/upload/v1710860831/YelpCamp/zz9ynoe3px884li9zkkk.jpg',
-          filename: 'SoccerSync/zz9ynoe3px884li9zkkk',
+          url: 'https://res.cloudinary.com/dwtgvozjf/image/upload/v1711791030/YelpCamp/wqtajuorr7v58cwxvvrd.jpg',
+          filename: 'YelpCamp/wqtajuorr7v58cwxvvrd',
         }
       ]
     })
