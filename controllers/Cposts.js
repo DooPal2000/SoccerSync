@@ -46,14 +46,14 @@ module.exports.renderEditForm = async (req, res) => {
     res.render('postings/edit', { posting });
 }
 
-module.exports.updatePosting = async (req, res) => {
+module.exports.updatePost = async (req, res) => {
     const { id } = req.params;
     const posting = await Posting.findByIdAndUpdate(id, { ...req.body.posting });
     req.flash('success', 'Successfully updated posting!');
     res.redirect(`/postings/${posting._id}`)
 }
 
-module.exports.deletePosting = async (req, res) => {
+module.exports.deletePost = async (req, res) => {
     const { id } = req.params;
     await Posting.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted posting')
