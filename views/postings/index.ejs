@@ -3,14 +3,14 @@
 <div class="container">
     <h1>All Posts</h1>
     <div>
-        <a href="/posts/new" class="btn btn-primary">Add New Post</a>
+        <a href="/post/new" class="btn btn-primary">Add New Post</a>
     </div>
 
     <% if (!postings || postings.length === 0) { %> 
         <!-- postings 배열이 없거나, 길이가 0일 경우 -->
         <div class="alert alert-warning mt-4">
             <p>No posts available yet. Be the first to add one!</p>
-            <a href="/posts/new" class="btn btn-success">Add New Post</a>
+            <a href="/post/new" class="btn btn-success">Add New Post</a>
         </div>
     <% } else { %> 
         <!-- postings가 있을 때만 게시글 목록 출력 -->
