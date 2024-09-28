@@ -1,4 +1,3 @@
-// or via CommonJS
 document.addEventListener('DOMContentLoaded', function () {
     console.log('teamScript opened')
     // 모든 "선수 분석" 버튼을 선택
@@ -56,6 +55,34 @@ document.addEventListener('DOMContentLoaded', function () {
                     };
 
                     // SweetAlert2 사용하여 팝업 생성
+
+                    Swal.fire({
+                        title: 'Player Information',
+                        icon: 'info',
+                        html: `
+                            <div style="display: flex; align-items: start;">
+                                <img src="${playerData.player.photo}" alt="${playerData.player.name}" style="width: 55px; height: auto; margin-right: 15px; border-radius: 8px;">
+                                <div>
+                                    <h3 style="margin-top: 0;">${playerData.player.name}</h3>
+                                    <p><strong>Age:</strong> ${playerData.player.age}</p>
+                                    <p><strong>Birth Date:</strong> ${playerData.player.birth.date}</p>
+                                    <p><strong>Country:</strong> ${playerData.player.birth.country}</p>
+                                    
+                                    <h4>Statistics:</h4>
+                                    ${generateStatsHtml(playerData.statistics)}
+                                </div>
+                            </div>
+                        `,
+                        confirmButtonText: 'OK',
+                        width: '500px', // 너비를 500px로 줄임
+                        padding: '1em',
+                        background: '#fff',
+                        customClass: {
+                            container: 'swal-container',
+                            popup: 'swal-popup'
+                        }
+                    });
+
                     Swal.fire({
                         title: 'Player Information',
                         icon: 'info',
@@ -64,8 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                                 <div>
                                     <h2>${playerData.player.name}</h2>
-                                    <p><strong>Age:</strong> ${playerData.player.age}</p>
-                                    <p><strong>Birth Date:</strong> ${playerData.player.birth.date}</p>
+                                    <p><strong>Birth Date:</strong> ${playerData.player.birth.date} (${playerData.player.age}) </p>
                                     <p><strong>Country:</strong> ${playerData.player.birth.country}</p>
                                     
                                     <h3>Statistics:</h3>
@@ -73,8 +99,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                 </div>
                         `,
                         confirmButtonText: 'OK',
-                        width: '80%',
-                        padding: '20px',
+                        width: '40%',
+                        padding: '10px',
                         background: '#fff',
                         customClass: {
                             container: 'swal-container',
