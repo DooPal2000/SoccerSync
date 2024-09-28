@@ -22,7 +22,7 @@ module.exports.showPost = async (req, res,) => {
     // 리뷰에 여러 명을 populate 해야 해서, 주석처리된 부분과 다르게 진행된다. 
     //const posting = await Posting.findById(req.params.id).populate('reviews').populate('author');
     const posting = await Posting.findById(req.params.id).populate({
-        path: 'reviews',
+        path: 'comments',
         populate: {
             path: 'author'
         }

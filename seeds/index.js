@@ -44,7 +44,7 @@ const seedDB = async () => {
 
     const price = Math.floor(Math.random() * 20) + 10;
     const posting = new Posting({
-      author: '65de081bf0e630e741fc9d2c',
+      author: '663478ae2f20be4688d13e21',
       location: `${teams[randomIndex].team}, ${teams[randomIndex].state}`,
       title: `${sample(descriptors)} ${sample(places)}`,
       image: 'https://images.unsplash.com/photo-1505843687871-669c89088b12?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',

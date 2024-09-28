@@ -11,7 +11,7 @@ const PostingSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    reviews: [
+    comments: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Review'

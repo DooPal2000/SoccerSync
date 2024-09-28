@@ -3,6 +3,48 @@
 
 <div class="row">
     <div class="col-6">
+        <div id="postingCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <% posting.image.forEach((img, i) => { %>
+                    <div class="carousel-item <%= i === 0 ? 'active' : ''%>">
+                        <img src="<%= img.url %>" class="d-block w-100" alt="...">
+                    </div>
+                <% }) %>
+            </div>
+
+            <% if(posting.images.length > 1) { %>
+                <button class="carousel-control-prev" type="button" data-bs-target="#postingCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#postingCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            <% } %>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title"><%= posting.title%></h5>
+                <p class="card-text"><%= posting.description%></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Posted by <%= posting.author.username%></li>
+                <li class="list-group-item">Created at: <%= posting.createdAt.toLocaleDateString() %></li>
+            </ul>
+            <% if(currentUser && posting.author.equals(currentUser._id)){ %>
+                <div class="card-body">
+                    <a class="card-link btn btn-info" href="/posts/<%=posting._id%>/edit">Edit</a>
+                    <form class="d-inline" action="/posts/<%=posting._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="col-6">
         <% if (posting.image) { %>
             <img src="<%= posting.image %>" class="img-fluid" alt="<%= posting.title %>">
         <% } else { %>
@@ -16,6 +58,7 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Posted by <%= posting.author.username%></li>
+                <li class="list-group-item">Created at: <%= posting.createdAt.toLocaleDateString() %></li>
             </ul>
             <% if(currentUser && posting.author.equals(currentUser._id)){ %>
                 <div class="card-body">
