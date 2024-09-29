@@ -1,21 +1,21 @@
 <% layout('layouts/boilerplate')%>
     <div class="row">
-        <h1 class="text-center">Edit Campground</h1>
+        <h1 class="text-center">Edit Posting</h1>
         <div class="col-md-6 offset-md-3">
-            <form action="/campgrounds/<%=campground._id%>?_method=PUT" method="POST" novalidate class="validated-form"
+            <form action="/postings/<%=posting._id%>?_method=PUT" method="POST" novalidate class="validated-form"
                 enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-label" for="title">Title</label>
-                    <input class="form-control" type="text" id="title" name="campground[title]"
-                        value="<%=campground.title %>" required>
+                    <input class="form-control" type="text" id="title" name="posting[title]"
+                        value="<%=posting.title %>" required>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="location">Location</label>
-                    <input class="form-control" type="text" id="location" name="campground[location]"
-                        value="<%=campground.location %>" required>
+                    <input class="form-control" type="text" id="location" name="posting[location]"
+                        value="<%=posting.location %>" required>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -35,7 +35,7 @@
                     <div class="input-group">
                         <span class="input-group-text" id="price-label">$</span>
                         <input type="text" class="form-control" id="price" placeholder="0.00" aria-label="price"
-                            aria-describedby="price-label" name="campground[price]" value="<%=campground.price %>"
+                            aria-describedby="price-label" name="posting[price]" value="<%=posting.price %>"
                             required>\<div class="valid-feedback">
                             Looks good!
                         </div>
@@ -44,14 +44,14 @@
 
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>
-                    <textarea class="form-control" type="text" id="description" name="campground[description]"
-                        required><%= campground.description%></textarea>
+                    <textarea class="form-control" type="text" id="description" name="posting[description]"
+                        required><%= posting.description%></textarea>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
                 </div>
                 <div class="mb-3">
-                    <% campground.images.forEach(function(img, i){ %>
+                    <% posting.images.forEach(function(img, i){ %>
                         <img src="<%= img.thumbnail %>" class="img-thumbnail" alt="">
                         <div class="form-check-inline">
                             <input type="checkbox" id="image-<%=i%>" name="deleteImages[]" value="<%=img.filename%>">
@@ -63,7 +63,7 @@
                     <button class="btn btn-info">Update Campground</button>
                 </div>
             </form>
-            <a href="/campgrounds/<%= campground._id%>">Back To Campground</a>
+            <a href="/postings/<%= posting._id%>">Back To Campground</a>
 
         </div>
     </div>

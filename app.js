@@ -100,8 +100,8 @@ app.use('/predictions', predictionRoutes);
 app.use('/fixtures', fixtureRoutes);
 app.use('/standings', standingRoutes);
 app.use('/analysis', analysisRoutes);
-app.use('/posting', postingRoutes);
-app.use('/posting/:id/comment', commentRoutes);
+app.use('/postings', postingRoutes);
+app.use('/postings/:id/comment', commentRoutes);
 // app.use('/compare', analysisRoutes);
 
 
