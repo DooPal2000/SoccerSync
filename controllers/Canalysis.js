@@ -1,7 +1,7 @@
 const axios = require('axios');
 const ExpressError = require('../utils/ExpressError');
 const { TeamSquad, Player } = require('../models/teamSquad');
-const { listenerCount } = require('../../YelpCamp-KY/models/review');
+// const { listenerCount } = require('../../YelpCamp-KY/models/comment');
 
 module.exports.showTeamSearch = (req, res) => {
     res.render('teamSearch');

@@ -35,8 +35,8 @@
             </ul>
             <% if(currentUser && posting.author.equals(currentUser._id)){ %>
                 <div class="card-body">
-                    <a class="card-link btn btn-info" href="/posts/<%=posting._id%>/edit">Edit</a>
-                    <form class="d-inline" action="/posts/<%=posting._id%>?_method=DELETE" method="POST">
+                    <a class="card-link btn btn-info" href="/postings/<%=posting._id%>/edit">Edit</a>
+                    <form class="d-inline" action="/postings/<%=posting._id%>?_method=DELETE" method="POST">
                         <button class="btn btn-danger">Delete</button>
                     </form>
                 </div>
@@ -62,8 +62,8 @@
             </ul>
             <% if(currentUser && posting.author.equals(currentUser._id)){ %>
                 <div class="card-body">
-                    <a class="card-link btn btn-info" href="/posts/<%=posting._id%>/edit">Edit</a>
-                    <form class="d-inline" action="/posts/<%=posting._id%>?_method=DELETE" method="POST">
+                    <a class="card-link btn btn-info" href="/postings/<%=posting._id%>/edit">Edit</a>
+                    <form class="d-inline" action="/postings/<%=posting._id%>?_method=DELETE" method="POST">
                         <button class="btn btn-danger">Delete</button>
                     </form>
                 </div>
@@ -76,7 +76,7 @@
     <div class="col-6">
         <% if(currentUser){ %>
             <h2>Leave a Comment</h2>
-            <form action="/posts/<%=posting._id%>/comments" method="POST" class="mb-3 validated-form" novalidate>
+            <form action="/postings/<%=posting._id%>/comments" method="POST" class="mb-3 validated-form" novalidate>
                 <div class="mb-3">
                     <label class="form-label" for="body">Comment</label>
                     <textarea class="form-control" name="comment[body]" id="body" cols="30" rows="3" required></textarea>
@@ -94,7 +94,7 @@
                     <h5 class="card-title"><%= comment.author.username %></h5>
                     <p class="card-text">Comment: <%= comment.body %></p>
                     <% if(currentUser && comment.author.equals(currentUser._id)){ %>
-                        <form action="/posts/<%=posting._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                        <form action="/postings/<%=posting._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
                             <button class="btn btn-sm btn-danger">Delete</button>
                         </form>
                     <% } %>

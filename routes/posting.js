@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
-const posts = require('../controllers/Cposts');
+const postings = require('../controllers/Cpostings');
 const { isLoggedIn, validatePost, isAuthor } = require('../middleware');
 const multer = require('multer');
 const { storage } = require('../cloudinary');
@@ -9,15 +9,15 @@ const { storage } = require('../cloudinary');
 const upload = multer({ storage });
 
 router.route('/')
-    .get(catchAsync(posts.index))
-    .post(isLoggedIn, upload.single('image'), validatePost, catchAsync(posts.createPost))
+    .get(catchAsync(postings.index))
+    .post(isLoggedIn, upload.single('image'), validatePost, catchAsync(postings.createPost))
 
-router.get('/new', isLoggedIn, posts.renderNewForm);
+router.get('/new', isLoggedIn, postings.renderNewForm);
 
 router.route('/:id')
-    .get(catchAsync(posts.showPost))
-    .put(isLoggedIn, isAuthor, upload.single('image'), validatePost, catchAsync(posts.updatePost))
-    .delete(isLoggedIn, isAuthor, catchAsync(posts.deletePost))
+    .get(catchAsync(postings.showPost))
+    .put(isLoggedIn, isAuthor, upload.single('image'), validatePost, catchAsync(postings.updatePost))
+    .delete(isLoggedIn, isAuthor, catchAsync(postings.deletePost))
 
 module.exports = router;
 

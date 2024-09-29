@@ -10,8 +10,8 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createPost = async (req, res, next) => {
-    // if (!req.body.posting) throw new ExpressError('Invalid Posting Data', 400);
-    const posting = new Posting(req.body.posting);
+    // if (!req.body.post) throw new ExpressError('Invalid Posting Data', 400);
+    const posting = new Posting(req.body.post);
     posting.author = req.user._id;
     await posting.save();
     req.flash('success', 'Successfully made a new posting');
@@ -20,7 +20,7 @@ module.exports.createPost = async (req, res, next) => {
 
 module.exports.showPost = async (req, res,) => {
     // 리뷰에 여러 명을 populate 해야 해서, 주석처리된 부분과 다르게 진행된다. 
-    //const posting = await Posting.findById(req.params.id).populate('reviews').populate('author');
+    //const posting = await Posting.findById(req.params.id).populate('comments').populate('author');
     const posting = await Posting.findById(req.params.id).populate({
         path: 'comments',
         populate: {
@@ -48,7 +48,7 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updatePost = async (req, res) => {
     const { id } = req.params;
-    const posting = await Posting.findByIdAndUpdate(id, { ...req.body.posting });
+    const posting = await Posting.findByIdAndUpdate(id, { ...req.body.post });
     req.flash('success', 'Successfully updated posting!');
     res.redirect(`/postings/${posting._id}`)
 }
