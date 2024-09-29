@@ -1,7 +1,7 @@
-const { postSchema, reviewSchema } = require('./schemas.js');
+const { postingSchema, commentSchema } = require('./schemas.js');
 const  ExpressError = require('./utils/ExpressError.js');
 const Posting = require('./models/posting.js');
-const Review = require('./models/review');
+const Comment = require('./models/comment.js');
 
 module.exports.isLoggedIn = (req, res, next) => {
     console.log("Req.user...", req.user)
@@ -22,7 +22,7 @@ module.exports.storeReturnTo = (req, res, next) => {
 }
 
 module.exports.validatePost = (req, res, next) => {
-    const { error } = postSchema.validate(req.body);
+    const { error } = postingSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 400)
@@ -36,23 +36,23 @@ module.exports.isAuthor = async (req, res, next) => {
     const posting = await Posting.findById(id);
     if (!posting.author.equals(req.user._id)) {
         req.flash('error', 'You do not have permission to to that!');
-        return res.redirect(`/post/${id}`);
+        return res.redirect(`/posting/${id}`);
     }
     next();
 }
 
-module.exports.isReviewAuthor = async (req, res, next) => {
-    const { id, reviewId } = req.params;
-    const review = await Review.findById(reviewId);
-    if (!review.author.equals(req.user._id)) {
+module.exports.isCommentAuthor = async (req, res, next) => {
+    const { id, commentId } = req.params;
+    const comment = await Comment.findById(commentId);
+    if (!comment.author.equals(req.user._id)) {
         req.flash('error', 'You do not have permission to to that!');
         return res.redirect(`/campgrounds/${id}`);
     }
     next();
 }
 
-module.exports.validateReview = (req, res, next) => {
-    const { error } = reviewSchema.validate(req.body);
+module.exports.validateComment = (req, res, next) => {
+    const { error } = commentSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 400)
