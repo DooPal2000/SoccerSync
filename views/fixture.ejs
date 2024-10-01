@@ -1,28 +1,26 @@
 <% layout('layouts/boilerplate')%>
 
-
-  <div class="container">
-    <h1>
-      <%= leagueName %> 경기 일정
-    </h1>
-  </div>
-  <div class="container">
-    <div class="row justify-content-center gx-5">
-      <div class="col-auto">
-        <button class="btn btn-outline-info" id="prevMonthBtn">이전 달</button>
-      </div>
-      <div class="col-auto">
-        <div id="yearMonth"></div>
-      </div>
-      <div class="col-auto">
-        <button class="btn btn-outline-info" id="nextMonthBtn">다음 달 </button>
-      </div>
+<div class="container">
+  <h1 class="text-center mb-4"><%= leagueName %> 경기 일정</h1>
+</div>
+<div class="container mb-4">
+  <div class="row justify-content-center gx-5">
+    <div class="col-auto">
+      <button class="btn btn-outline-info" id="prevMonthBtn">이전 달</button>
+    </div>
+    <div class="col-auto">
+      <h2 id="yearMonth" class="mb-0"></h2>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-outline-info" id="nextMonthBtn">다음 달</button>
     </div>
   </div>
+</div>
 
+<div class="container">
   <table class="table table-sm align-middle">
     <thead>
-      <tr>
+      <tr class="text-center">
         <th>경기일자</th>
         <th></th>
         <th>Home Team</th>
@@ -30,58 +28,53 @@
         <th>Away Team</th>
         <th></th>
         <th>일정코드</th>
-        <th>승부예측 바로가기</th>
+        <th>승부예측</th>
+        <th>즐겨찾기</th>
       </tr>
     </thead>
     <tbody>
-      <!-- fixtures.ejs -->
-
-      <% fixtures.forEach(fixture=> { %>
+      <% fixtures.forEach(fixture => { %>
         <tr>
-          <td class="text-center">
-            <%= new Date(fixture.fixture.date).toLocaleString('ko-KR', { year: 'numeric' , month: 'numeric' ,
-              day: 'numeric' , hour: '2-digit' , minute: '2-digit' , hour12: true }) %>
+          <td class="text-center align-middle">
+            <%= new Date(fixture.fixture.date).toLocaleString('ko-KR', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) %>
           </td>
-          <td class="text-center">
+          <td class="text-center align-middle">
             <img src="<%= fixture.teams.home.logo %>" alt="<%= fixture.teams.home.name %> logo" width="50" height="50">
           </td>
-          <td class="text-center"
-            style="background-color: <%= (fixture.goals.home > fixture.goals.away) ? 'lightgreen' : (fixture.goals.home < fixture.goals.away) ? 'lightcoral' : 'lightgray' %>;">
+          <td class="text-center align-middle" style="background-color: <%= (fixture.goals.home > fixture.goals.away) ? 'lightgreen' : (fixture.goals.home < fixture.goals.away) ? 'lightcoral' : 'lightgray' %>;">
             <%= fixture.teams.home.name %>
           </td>
-          <td class="text-center">
-            <% if (fixture.goals.home===null || fixture.goals.away===null) { %>
+          <td class="text-center align-middle">
+            <% if (fixture.goals.home === null || fixture.goals.away === null) { %>
               경기 전
-              <% } else { %>
-                <%= fixture.score.fulltime.home + ' - ' + fixture.score.fulltime.away %>
-                  <% } %>
+            <% } else { %>
+              <%= fixture.score.fulltime.home + ' - ' + fixture.score.fulltime.away %>
+            <% } %>
           </td>
-          <td class="text-center"
-            style="background-color: <%= (fixture.goals.home < fixture.goals.away) ? 'lightgreen' : (fixture.goals.home > fixture.goals.away) ? 'lightcoral' : 'lightgray' %>;">
+          <td class="text-center align-middle" style="background-color: <%= (fixture.goals.home < fixture.goals.away) ? 'lightgreen' : (fixture.goals.home > fixture.goals.away) ? 'lightcoral' : 'lightgray' %>;">
             <%= fixture.teams.away.name %>
           </td>
-          <td class="text-center">
+          <td class="text-center align-middle">
             <img src="<%= fixture.teams.away.logo %>" alt="<%= fixture.teams.away.name %> logo" width="50" height="50">
           </td>
-          <td class="text-center">
+          <td class="text-center align-middle">
             <%= fixture.fixture.fixtureId %>
           </td>
-          <td class="text-center">
-            <button class="btn btn-outline-dark"
-              onclick="window.location.href = '/predictions/<%= fixture.fixture.fixtureId %>'">
+          <td class="text-center align-middle">
+            <button class="btn btn-outline-dark" onclick="window.location.href = '/predictions/<%= fixture.fixture.fixtureId %>'">
               승부예측
             </button>
           </td>
+          <td class="text-center align-middle">
+            <i class="far fa-star favorite-star" data-fixture-id="<%= fixture.fixture.fixtureId %>"></i>
+          </td>
         </tr>
-        <% }); %>
+      <% }); %>
     </tbody>
   </table>
+</div>
 
+<div id="fixtureData" data-league-id="<%= leagueId %>" data-league-name="<%= leagueName %>"></div>
 
-
-  <div class="container">
-    <div class="table table-striped" id="fixture-container"></div>
-  </div>
-  <div id="fixtureData" data-league-id="<%= leagueId %>" data-league-name="<%= leagueName %>">
-    <script src="/js/fixtureScript.js"> </script>
-  </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<script src="/js/fixtureScript.js"></script>
