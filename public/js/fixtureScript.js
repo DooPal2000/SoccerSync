@@ -122,6 +122,7 @@ async function loadFixtures(currentYear, currentMonth) {
       tableBody.appendChild(row);
     });
 
+    
     // 즐겨찾기 상태 업데이트
     updateFavoriteStars();
   } catch (error) {
@@ -144,7 +145,7 @@ function toggleFavorite(event) {
 
 async function addFavorite(fixtureId) {
   try {
-    await axios.post('/user/favorites', { fixtureId });
+    await axios.post(`/users/favorites/${fixtureId}`);
   } catch (error) {
     console.error('Error adding favorite:', error);
   }
@@ -152,7 +153,7 @@ async function addFavorite(fixtureId) {
 
 async function removeFavorite(fixtureId) {
   try {
-    await axios.delete(`/user/favorites/${fixtureId}`);
+    await axios.delete(`/users/favorites/${fixtureId}`);
   } catch (error) {
     console.error('Error removing favorite:', error);
   }
@@ -160,7 +161,7 @@ async function removeFavorite(fixtureId) {
 
 async function updateFavoriteStars() {
   try {
-    const response = await axios.get('/user/favorites');
+    const response = await axios.get('/users/favorites');
     const favorites = response.data;
 
     document.querySelectorAll('.favorite-star').forEach(star => {
