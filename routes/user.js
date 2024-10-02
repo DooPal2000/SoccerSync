@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const catchAsync = require('../utils/catchAsync');
-const { storeReturnTo } = require('../middleware');
+const { storeReturnTo, isLoggedIn } = require('../middleware');
 const User = require('../models/user');
 const users = require('../controllers/Cusers');
 
@@ -23,14 +23,19 @@ router.post('/login',
 
     // passport.authenticate logs the user in and clears req.session
 
-    passport.authenticate('local', {failureFlash: true, failureRedirect: '/login'}),
+    passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }),
 
     // Now we can use res.locals.returnTo to redirect the user after login
 
     users.login);
 
-    
-router.get('/logout', users.logout); 
 
+router.get('/logout', users.logout);
+
+router.get('/users/favorites', catchAsync(users.searchFavorite));
+
+router.route('/users/favorites/:fixtureId')
+    .post(catchAsync(users.addFavorite))
+    .delete(catchAsync(users.deleteFavorite))
 
 module.exports = router;
