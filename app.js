@@ -13,6 +13,7 @@ const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const axios = require('axios');
 
+
 const Fixture = require('./models/fixture.js');
 const { fixtureSchema } = require('./schemas.js');
 
@@ -68,6 +69,7 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(flash());
+
 
 app.use(passport.initialize());
 app.use(passport.session());
