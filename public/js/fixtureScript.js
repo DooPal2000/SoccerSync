@@ -7,6 +7,14 @@ let currentMonth = today.getMonth() + 1;
 const leagueId = document.getElementById('fixtureData').dataset.leagueId;
 const leagueName = document.getElementById('fixtureData').dataset.leagueName;
 
+document.addEventListener('DOMContentLoaded', function () {
+  loadFixtures(currentYear, currentMonth);
+
+  // loadFixtures 함수 내에서 updateFavoriteStars를 호출하거나,
+  // 여기서 직접 호출할 수 있습니다.
+});
+
+
 document.getElementById('yearMonth').innerText = `${currentYear}년 ${currentMonth}월`;
 
 document.getElementById('prevMonthBtn').addEventListener('click', function () {
@@ -121,10 +129,9 @@ async function loadFixtures(currentYear, currentMonth) {
 
       tableBody.appendChild(row);
     });
-
-    
     // 즐겨찾기 상태 업데이트
     updateFavoriteStars();
+
   } catch (error) {
     console.error(error);
   }
@@ -145,19 +152,56 @@ function toggleFavorite(event) {
 
 async function addFavorite(fixtureId) {
   try {
-    await axios.post(`/users/favorites/${fixtureId}`);
+    const response = await axios.post(`/users/favorites/${fixtureId}`);
+    return response.data;
   } catch (error) {
-    console.error('Error adding favorite:', error);
+    if (error.response && error.response.status === 401) {
+      Swal.fire({
+        title: '로그인 필요',
+        text: '즐겨찾기 기능은 로그인 후 사용 가능합니다.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '로그인하기',
+        cancelButtonText: '취소'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = '/login';
+        }
+      });
+    } else {
+      console.error('Error adding favorite:', error);
+      Swal.fire('오류', '즐겨찾기 추가 중 오류가 발생했습니다.', 'error');
+    }
+    throw error;
   }
 }
 
 async function removeFavorite(fixtureId) {
   try {
-    await axios.delete(`/users/favorites/${fixtureId}`);
+    const response = await axios.delete(`/users/favorites/${fixtureId}`);
+    return response.data;
   } catch (error) {
-    console.error('Error removing favorite:', error);
+    if (error.response && error.response.status === 401) {
+      Swal.fire({
+        title: '로그인 필요',
+        text: '즐겨찾기 기능은 로그인 후 사용 가능합니다.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '로그인하기',
+        cancelButtonText: '취소'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = '/login';
+        }
+      });
+    } else {
+      console.error('Error removing favorite:', error);
+      Swal.fire('오류', '즐겨찾기 제거 중 오류가 발생했습니다.', 'error');
+    }
+    throw error;
   }
 }
+
 
 async function updateFavoriteStars() {
   try {
@@ -165,7 +209,7 @@ async function updateFavoriteStars() {
     const favorites = response.data;
 
     document.querySelectorAll('.favorite-star').forEach(star => {
-      const fixtureId = star.dataset.fixtureId;
+      const fixtureId = parseInt(star.dataset.fixtureId);
       if (favorites.includes(fixtureId)) {
         star.classList.replace('far', 'fas');
       } else {
@@ -177,5 +221,3 @@ async function updateFavoriteStars() {
   }
 }
 
-// 초기 로드
-loadFixtures(currentYear, currentMonth);
