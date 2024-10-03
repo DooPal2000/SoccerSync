@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const FixtureSchema = new Schema({
     fixture: {
-        fixtureId: Number,
+        // fixtureId: Number,
+        fixtureId: { type: Number, unique: true, index: true },
         referee: String,
         timezone: String,
         date: Date,
@@ -22,7 +23,7 @@ const FixtureSchema = new Schema({
             short: String,
             elapsed: String
         }
-    },    
+    },
     league: {
         id: Number,
         name: String,
