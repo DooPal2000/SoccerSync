@@ -35,7 +35,7 @@ router.get('/logout', users.logout);
 router.get('/users/favorites', catchAsync(users.searchFavorite));
 
 router.route('/users/favorites/:fixtureId')
-    .post(catchAsync(users.addFavorite))
-    .delete(catchAsync(users.deleteFavorite))
+    .post(isLoggedIn, catchAsync(users.addFavorite))
+    .delete(isLoggedIn, catchAsync(users.deleteFavorite))
 
 module.exports = router;

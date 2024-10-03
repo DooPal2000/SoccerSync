@@ -85,13 +85,14 @@ module.exports.addFavorite = async (req, res) => {
 module.exports.deleteFavorite = async (req, res) => {
     const currentUser = req.user;
     const fixtureId = parseInt(req.params.fixtureId);
-
+    
+    // favorites 배열에서 해당 fixture의 _id를 제거
     currentUser.favorites = currentUser.favorites.filter(id => id !== fixtureId);
     await currentUser.save();
 
-    // favorites 배열에서 해당 fixture의 _id를 제거
-    currentUser.favorites = currentUser.favorites.filter(id => !id.equals(fixture._id));
-    await currentUser.save();
+    // // favorites 배열에서 해당 fixture의 _id를 제거
+    // currentUser.favorites = currentUser.favorites.filter(id => !id.equals(fixture._id));
+    // await currentUser.save();
 
     console.log(currentUser.favorites);
     req.flash('success', `즐겨찾기 삭제 완료`);
