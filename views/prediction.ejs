@@ -1,143 +1,152 @@
 <% layout('layouts/boilerplate')%>
 
+<div class="container">
+  <h1 class="text-center my-4">🎰 승부예측</h1>
 
-  <div class="container">
-    <h1> 🎰승부예측 </h1>
-
-    <!-- prediction.ejs -->
-
-    <div class="card text-center mt-3">
-      <div class="card-header">
-        베팅 추천
-      </div>
-      <div class="card-body">
-        <h3 class="card-title text-danger bg-dark">
-          <%=predictionsData.predictions.advice %>
-        </h3>
-        <p class="card-text"> 홈팀 승리 확률: <%=predictionsData.predictions.percent.home %> <br>
-            무승부 확률: <%=predictionsData.predictions.percent.draw %> <br>
-              원정팀 승리 확률: <%=predictionsData.predictions.percent.away %>
-        </p>
-        <div class="row">
-          <div class="col-sm-6 mb-3 mb-sm-0 justify-content-center">
-            <div class="card col-auto m-3 text-center">
-              <div class="card-body">
-                <img src="<%= predictionsData.teams.home.logo %>" class="card-img-top"
-                  alt="<%= predictionsData.teams.home.name %>" style="max-width: 100px; max-height: 100px;">
-                <h5 class="card-title">
-                  <%= predictionsData.teams.home.name %>
-                </h5>
-                <p class="card-text text-info bg-dark">최근 5경기 : <%= predictionsData.teams.home.league.form.slice(-5) %>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 justify-content-center">
-            <div class="card col-auto m-3 text-center">
-              <div class="card-body">
-                <img src="<%= predictionsData.teams.away.logo %>" class="card-img-top"
-                  alt="<%= predictionsData.teams.away.name %>" style="max-width: 100px; max-height: 100px;">
-                <h5 class="card-title">
-                  <%= predictionsData.teams.away.name %>
-                </h5>
-                <p class="card-text text-info bg-dark">최근 5경기 : <%= predictionsData.teams.away.league.form.slice(-5) %>
-                </p>
-              </div>
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2 class="text-center">베팅 추천</h2>
+    </div>
+    <div class="card-body">
+      <h3 class="card-title text-center text-danger bg-dark py-2">
+        <%= predictionsData.predictions.advice %>
+      </h3>
+      <div class="row justify-content-center mb-4">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body text-center">
+              <img src="<%= predictionsData.teams.home.logo %>" class="img-fluid mb-2" alt="<%= predictionsData.teams.home.name %>" style="max-width: 100px;">
+              <h5 class="card-title"><%= predictionsData.teams.home.name %></h5>
+              <p class="card-text">승리 확률: <%= predictionsData.predictions.percent.home %></p>
+              <p class="card-text bg-dark text-info p-2">최근 5경기: <%= predictionsData.teams.home.league.form.slice(-5) %></p>
             </div>
           </div>
         </div>
-
-
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-      <div class="card-footer text-body-secondary">
-        <% // oddsData의 fixture 객체에서 UTC 형식의 날짜를 가져옴
-        const utcDateStr=oddsData.fixture.date;    // UTC 형식의 날짜를 JavaScript  Date 객체로 변환
-        const utcDate=new Date(utcDateStr); // UTC 형식의 날짜에 9시간을 더하여 한국 시간으로 변환
-        utcDate.setHours(utcDate.getHours() + 9); // 한국 시간으로 변환된 날짜를 yyyy-mm-dd hh:mm:ss 형식으로 표시 const
-        formattedDate=utcDate.toISOString().slice(0, 16).replace('T', ' ' ); %>
-        경기 킥오프 : <%= formattedDate %>
-
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body text-center">
+              <h5 class="card-title">무승부</h5>
+              <p class="card-text">확률: <%= predictionsData.predictions.percent.draw %></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body text-center">
+              <img src="<%= predictionsData.teams.away.logo %>" class="img-fluid mb-2" alt="<%= predictionsData.teams.away.name %>" style="max-width: 100px;">
+              <h5 class="card-title"><%= predictionsData.teams.away.name %></h5>
+              <p class="card-text">승리 확률: <%= predictionsData.predictions.percent.away %></p>
+              <p class="card-text bg-dark text-info p-2">최근 5경기: <%= predictionsData.teams.away.league.form.slice(-5) %></p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">배당률 안내</h5>
-        <% if (oddsData && oddsData.bookmakers) { %>
+    <div class="card-footer text-center">
+      <% 
+        const utcDate = new Date(oddsData.fixture.date);
+        utcDate.setHours(utcDate.getHours());
+        const formattedDate = utcDate.toLocaleString('ko-KR', { 
+          year: 'numeric', 
+          month: '2-digit', 
+          day: '2-digit', 
+          hour: '2-digit', 
+          minute: '2-digit',
+          hour12: false 
+        });
+      %>
+      경기 킥오프: <%= formattedDate %>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2 class="text-center">배당률 안내</h2>
+    </div>
+    <div class="card-body">
+      <% if (oddsData && oddsData.bookmakers) { %>
+        <% const bet365 = oddsData.bookmakers.find(bookmaker => bookmaker.name === "Bet365"); %>
+        <% if (bet365) { %>
           <!-- Match Winner Options -->
-          <h2>Match Winner Options:</h2>
-          <ul>
-            <% oddsData.bookmakers.forEach(bookmaker=> { %>
-              <% if (bookmaker.name==="Bet365" ) { %>
-                <% const matchWinner=bookmaker.bets.find(bet=> bet.name === "Match Winner"); %>
-                  <% if (matchWinner) { %>
-                    <% matchWinner.values.forEach(option=> { %>
-                      <li>
-                        <%= option.value %>: <%= option.odd %>
-                      </li>
-                      <% }); %>
-                        <% } else { %>
-                          <li>No data available</li>
-                          <% } %>
-                            <% } %>
-                              <% }); %>
-          </ul>
+          <h3 class="mt-4">승패 배당률</h3>
+          <% const matchWinner = bet365.bets.find(bet => bet.name === "Match Winner"); %>
+          <% if (matchWinner && matchWinner.values.length > 0) { %>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="col-6 text-start">옵션</th>
+                  <th class="col-6 text-start">배당률</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% matchWinner.values.forEach(option => { %>
+                  <tr>
+                    <td class="col-6 text-start"><%= option.value %></td>
+                    <td class="col-6 text-start"><%= option.odd %></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          <% } else { %>
+            <p class="text-center">승패 배당률 데이터가 없습니다.</p>
+          <% } %>
+
+          <!-- Double Chance Options -->
+          <h3 class="mt-4">더블 찬스 배당률</h3>
+          <% const doubleChance = bet365.bets.find(bet => bet.name === "Double Chance"); %>
+          <% if (doubleChance && doubleChance.values.length > 0) { %>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="col-6 text-start">옵션</th>
+                  <th class="col-6 text-start">배당률</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% doubleChance.values.forEach(option => { %>
+                  <tr>
+                    <td class="col-6 text-start"><%= option.value %></td>
+                    <td class="col-6 text-start"><%= option.odd %></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          <% } else { %>
+            <p class="text-center">더블 찬스 배당률 데이터가 없습니다.</p>
+          <% } %>
 
           <!-- Goals Over/Under Options -->
-          <h2>Goals Over/Under Options:</h2>
-          <ul>
-            <% oddsData.bookmakers.forEach(bookmaker=> { %>
-              <% if (bookmaker.name==="Bet365" ) { %>
-                <% const goalsOverUnder=bookmaker.bets.find(bet=> bet.name === "Goals Over/Under"); %>
-                  <% if (goalsOverUnder) { %>
-                    <% goalsOverUnder.values.forEach(option=> { %>
-                      <li>
-                        <%= option.value %>: <%= option.odd %>
-                      </li>
-                      <% }); %>
-                        <% } else { %>
-                          <li>No data available</li>
-                          <% } %>
-                            <% } %>
-                              <% }); %>
-          </ul>
+          <h3 class="mt-4">오버/언더 배당률</h3>
+          <% const goalsOverUnder = bet365.bets.find(bet => bet.name === "Goals Over/Under"); %>
+          <% if (goalsOverUnder && goalsOverUnder.values.length > 0) { %>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="col-6 text-start">옵션</th>
+                  <th class="col-6 text-start">배당률</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% goalsOverUnder.values
+                  .filter(option => parseFloat(option.value.split(' ')[1]) <= 3.5)
+                  .forEach(option => { %>
+                  <tr>
+                    <td class="col-6 text-start"><%= option.value %></td>
+                    <td class="col-6 text-start"><%= option.odd %></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
           <% } else { %>
-            <p>배당률이 아직 공개되지 않았습니다.</p>
-            <% } %>
+            <p class="text-center">오버/언더 배당률 데이터가 없습니다.</p>
+          <% } %>
 
-      </div>
+        <% } else { %>
+          <p class="text-center">Bet365 데이터를 찾을 수 없습니다.</p>
+        <% } %>
+      <% } else { %>
+        <p class="text-center">배당률이 아직 공개되지 않았습니다.</p>
+      <% } %>
     </div>
-
-
-    <div class="row mt-3">
-      <div class="card col-auto mb-3">
-        <img src="<%= predictionsData.teams.home.logo %>" class="card-img-top"
-          alt="<%= predictionsData.teams.home.name %>" width="100" height="100">
-        <div class="card-body">
-          <h5 class="card-title">
-            <%= predictionsData.teams.home.name %>
-          </h5>
-          <p class="card-text">최근5경기 : <%= predictionsData.teams.home.league.form.slice(-5) %>
-          </p>
-        </div>
-      </div>
-      <div class="card col-auto mb-3">
-        <img src="<%= predictionsData.teams.away.logo %>" class="card-img-top"
-          alt="<%= predictionsData.teams.away.name %>" width="100" height="100">
-        <div class="card-body">
-          <h5 class="card-title">
-            <%= predictionsData.teams.away.name %>
-          </h5>
-          <p class="card-text">최근5경기 : <%= predictionsData.teams.away.league.form.slice(-5) %>
-          </p>
-        </div>
-      </div>
-    </div>
-
-
-
-
-
-
-
   </div>
+</div>
