@@ -76,16 +76,13 @@ module.exports.addFavorite = async (req, res) => {
     }
 
     console.log(currentUser.favorites);
-    req.flash('success', `즐겨찾기 추가 완료`);
     res.json({ success: true, message: '즐겨찾기에 추가되었습니다.' });
-    // res.json({ success: true, message: '즐겨찾기에 추가되었습니다.' });
-
 };
 
 module.exports.deleteFavorite = async (req, res) => {
     const currentUser = req.user;
     const fixtureId = parseInt(req.params.fixtureId);
-    
+
     // favorites 배열에서 해당 fixture의 _id를 제거
     currentUser.favorites = currentUser.favorites.filter(id => id !== fixtureId);
     await currentUser.save();
@@ -95,7 +92,6 @@ module.exports.deleteFavorite = async (req, res) => {
     // await currentUser.save();
 
     console.log(currentUser.favorites);
-    req.flash('success', `즐겨찾기 삭제 완료`);
     res.send(currentUser);
 };
 
