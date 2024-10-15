@@ -70,6 +70,15 @@ async function loadFixtures(currentYear, currentMonth) {
       const homeNameCell = document.createElement('td');
       homeNameCell.classList.add('text-center', 'align-middle');
       homeNameCell.textContent = fixture.teams.home.name;
+      if (fixture.goals.home !== null && fixture.goals.away !== null) {
+        if (fixture.goals.home > fixture.goals.away) {
+          homeNameCell.style.backgroundColor = 'lightgreen';
+        } else if (fixture.goals.home < fixture.goals.away) {
+          homeNameCell.style.backgroundColor = 'lightcoral';
+        } else {
+          homeNameCell.style.backgroundColor = 'lightgray';
+        }
+      }
       row.appendChild(homeNameCell);
 
       // Score 셀
@@ -86,8 +95,17 @@ async function loadFixtures(currentYear, currentMonth) {
       const awayNameCell = document.createElement('td');
       awayNameCell.classList.add('text-center', 'align-middle');
       awayNameCell.textContent = fixture.teams.away.name;
+      if (fixture.goals.home !== null && fixture.goals.away !== null) {
+        if (fixture.goals.away > fixture.goals.home) {
+          awayNameCell.style.backgroundColor = 'lightgreen';
+        } else if (fixture.goals.away < fixture.goals.home) {
+          awayNameCell.style.backgroundColor = 'lightcoral';
+        } else {
+          awayNameCell.style.backgroundColor = 'lightgray';
+        }
+      }
       row.appendChild(awayNameCell);
-
+      
       // Away Team logo 셀
       const awayLogoCell = document.createElement('td');
       awayLogoCell.classList.add('text-center', 'align-middle');
