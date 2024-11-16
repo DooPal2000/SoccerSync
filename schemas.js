@@ -1,10 +1,12 @@
 const Joi = require('joi');
+const { number } = require('joi');
+
 module.exports.userSchema = Joi.object({
     favorites: Joi.array().items(Joi.number()).max(10).required()
 });
 
-module.exports.postSchema = Joi.object({
-    campground: Joi.object({
+module.exports.postingSchema = Joi.object({
+    posting: Joi.object({
         title: Joi.string().required(),
         price: Joi.number().required().min(0),
         image: Joi.string().required(),
