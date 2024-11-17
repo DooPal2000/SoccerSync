@@ -11,7 +11,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createPost = async (req, res, next) => {
     // if (!req.body.post) throw new ExpressError('Invalid Posting Data', 400);
-    const posting = new Posting(req.body.post);
+    const posting = new Posting(req.body.posting);
     posting.author = req.user._id;
     await posting.save();
     req.flash('success', 'Successfully made a new posting');
